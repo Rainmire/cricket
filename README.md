@@ -10,3 +10,38 @@ BattleTanks is a game where you control a tank and take turns playing against an
 * AI opponent moves and calculates projectile path when attempting to shoot the player.
 
 ### Wireframes
+The terrain will consist of hills on which the two tanks will be placed. At the bottom is a slider to adjust the power of the shot and a fire button which is active on the player's turn.
+
+![](https://github.com/Rainmire/tanks/blob/master/docs/Wireframes.png)
+
+### Architecture and Technologies
+This project will be implemented with the following technologies:
+* Vanilla JavaScript for overall structure and game logic
+* Webpack to bundle and serve up the various scripts
+* `HTML5 Canvas` for rendering terrain and tanks
+
+The architecture for this project will be:
+`map.js`: this script will handle rendering the game
+`tanks.js`: this script will handle the logic for tank actions
+`computerplayer.js`: this script allows the AI to make the best possible moves
+`game.js`: this script handles the game logic, including turns and game over
+
+### Implementation Timeline
+
+Day 1:
+* Setup Webpack
+* Setup entry file
+
+Day 2:
+* complete `map.js` and make sure it renders properly
+
+Day 3:
+* Complete `game.js` and `tanks.js`
+* Make sure game is playable
+
+Day 4:
+* Complete `computerplayer.js`
+* Make sure AI works
+
+Bonus:
+Generate terrain dynamically
