@@ -1,56 +1,62 @@
-var drawImage = function (imageObj) {
-  var canvas = document.getElementById('myCanvas');
-  var context = canvas.getContext('2d');
-  var imageX = 69;
-  var imageY = 50;
-  var imageWidth = imageObj.width;
-  var imageHeight = imageObj.height;
+const Tanks = () => {
+  var drawImage = function (imageObj) {
+    var canvas = document.getElementById('myCanvas');
+    var context = canvas.getContext('2d');
+    var imageX = 69;
+    var imageY = 50;
+    var imageWidth = imageObj.width;
+    var imageHeight = imageObj.height;
 
-  context.drawImage(imageObj, imageX, imageY);
+    context.drawImage(imageObj, imageX, imageY);
 
-  var imageData = context.getImageData(imageX, imageY, imageWidth, imageHeight);
-  var data = imageData.data;
+    var imageData = context.getImageData(imageX, imageY, imageWidth, imageHeight);
+    var data = imageData.data;
 
-  // // iterate over all pixels
-  // for(var i = 0, n = data.length; i < n; i += 4) {
-  //   var red = data[i];
-  //   var green = data[i + 1];
-  //   var blue = data[i + 2];
-  //   var alpha = data[i + 3];
-  //   // console.log(red+green+blue+alpha);
-  // }
+    // // iterate over all pixels
+    // for(var i = 0, n = data.length; i < n; i += 4) {
+    //   var red = data[i];
+    //   var green = data[i + 1];
+    //   var blue = data[i + 2];
+    //   var alpha = data[i + 3];
+    //   // console.log(red+green+blue+alpha);
+    // }
 
-  // pick out pixel data from x, y coordinate
-  var x = 20;
-  var y = 20;
-  var red = data[((imageWidth * y) + x) * 4];
-  var green = data[((imageWidth * y) + x) * 4 + 1];
-  var blue = data[((imageWidth * y) + x) * 4 + 2];
-  var alpha = data[((imageWidth * y) + x) * 4 + 3];
-  console.log(blue);
+    // pick out pixel data from x, y coordinate
+    var x = 20;
+    var y = 20;
+    var red = data[((imageWidth * y) + x) * 4];
+    var green = data[((imageWidth * y) + x) * 4 + 1];
+    var blue = data[((imageWidth * y) + x) * 4 + 2];
+    var alpha = data[((imageWidth * y) + x) * 4 + 3];
+    console.log(blue);
 
-  // // iterate over all pixels based on x and y coordinates
-  // for(var y = 0; y < imageHeight; y++) {
-  //   // loop through each column
-  //   for(var x = 0; x < imageWidth; x++) {
-  //     var red = data[((imageWidth * y) + x) * 4];
-  //     var green = data[((imageWidth * y) + x) * 4 + 1];
-  //     var blue = data[((imageWidth * y) + x) * 4 + 2];
-  //     var alpha = data[((imageWidth * y) + x) * 4 + 3];
-  //   }
-  // }
+    // // iterate over all pixels based on x and y coordinates
+    // for(var y = 0; y < imageHeight; y++) {
+    //   // loop through each column
+    //   for(var x = 0; x < imageWidth; x++) {
+    //     var red = data[((imageWidth * y) + x) * 4];
+    //     var green = data[((imageWidth * y) + x) * 4 + 1];
+    //     var blue = data[((imageWidth * y) + x) * 4 + 2];
+    //     var alpha = data[((imageWidth * y) + x) * 4 + 3];
+    //   }
+    // }
 
-  //populate collision map
-  // const terrainMap = [];
-  var frame = function () {
+    //populate collision map
+    // const terrainMap = [];
+    // var frame = function () {
 
   };
 
-};
 
-var imageObj = new Image();
-imageObj.onload = function() {
-  drawImage(this);
+
+  return {
+    init: function () {
+      var imageObj = new Image();
+      imageObj.onload = function() {
+        drawImage(this);
+      };
+      imageObj.crossOrigin = "Anonymous";
+      imageObj.src = 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Rectangle_.png';
+    }
+  };
 };
-imageObj.crossOrigin = "Anonymous";
-imageObj.src = 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Rectangle_.png';
