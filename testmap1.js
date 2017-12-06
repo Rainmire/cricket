@@ -11,22 +11,24 @@ var drawImage = function (imageObj) {
   var imageData = context.getImageData(imageX, imageY, imageWidth, imageHeight);
   var data = imageData.data;
 
-  // iterate over all pixels
-  for(var i = 0, n = data.length; i < n; i += 4) {
-    var red = data[i];
-    var green = data[i + 1];
-    var blue = data[i + 2];
-    var alpha = data[i + 3];
-  }
-  //
-  // // pick out pixel data from x, y coordinate
-  // var x = 20;
-  // var y = 20;
-  // var red = data[((imageWidth * y) + x) * 4];
-  // var green = data[((imageWidth * y) + x) * 4 + 1];
-  // var blue = data[((imageWidth * y) + x) * 4 + 2];
-  // var alpha = data[((imageWidth * y) + x) * 4 + 3];
-  //
+  // // iterate over all pixels
+  // for(var i = 0, n = data.length; i < n; i += 4) {
+  //   var red = data[i];
+  //   var green = data[i + 1];
+  //   var blue = data[i + 2];
+  //   var alpha = data[i + 3];
+  //   // console.log(red+green+blue+alpha);
+  // }
+
+  // pick out pixel data from x, y coordinate
+  var x = 20;
+  var y = 20;
+  var red = data[((imageWidth * y) + x) * 4];
+  var green = data[((imageWidth * y) + x) * 4 + 1];
+  var blue = data[((imageWidth * y) + x) * 4 + 2];
+  var alpha = data[((imageWidth * y) + x) * 4 + 3];
+  console.log(blue);
+
   // // iterate over all pixels based on x and y coordinates
   // for(var y = 0; y < imageHeight; y++) {
   //   // loop through each column
@@ -37,10 +39,18 @@ var drawImage = function (imageObj) {
   //     var alpha = data[((imageWidth * y) + x) * 4 + 3];
   //   }
   // }
+
+  //populate collision map
+  // const terrainMap = [];
+  var frame = function () {
+
+  };
+
 };
 
 var imageObj = new Image();
 imageObj.onload = function() {
   drawImage(this);
 };
+imageObj.crossOrigin = "Anonymous";
 imageObj.src = 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Rectangle_.png';
