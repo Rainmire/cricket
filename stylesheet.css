@@ -1,0 +1,22 @@
+body {
+  position:absolute;
+  left:0px;
+  top:0px;
+}
+
+#myCanvas {
+
+}
+
+
+Bottom layer
+    canvas id="layer1" 
+    style="z-index: 1;
+
+Middle layer
+    canvas id="layer2"
+    style="z-index: 2;
+
+Top Layer
+    canvas id="layer3"
+    style="z-index: 3;
