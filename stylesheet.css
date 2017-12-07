@@ -1,22 +1,21 @@
 body {
-  position:absolute;
+  position: absolute;
   left:0px;
   top:0px;
 }
 
-#myCanvas {
-
+#terrainCanvas {
+  position: absolute;
+  z-index: 1;
+  border: 1px solid black;
+}
+#tankCanvas {
+  position: absolute;
+  z-index: 2;
+  border: 1px solid black;
 }
 
-
-Bottom layer
-    canvas id="layer1" 
-    style="z-index: 1;
-
-Middle layer
-    canvas id="layer2"
-    style="z-index: 2;
-
-Top Layer
-    canvas id="layer3"
-    style="z-index: 3;
+.instructions {
+  /*position: relative;*/
+  margin-top: 450px;
+}

@@ -1,4 +1,4 @@
-import Map from './testmap2';
+import Map from './map';
 document.addEventListener("DOMContentLoaded", function() {
   var imageObj = new Image();
   imageObj.onload = function() {

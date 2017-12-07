@@ -69,12 +69,12 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__testmap2__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__map__ = __webpack_require__(1);
 
 document.addEventListener("DOMContentLoaded", function() {
   var imageObj = new Image();
   imageObj.onload = function() {
-    const map = new __WEBPACK_IMPORTED_MODULE_0__testmap2__["a" /* default */](this);
+    const map = new __WEBPACK_IMPORTED_MODULE_0__map__["a" /* default */](this);
   };
   imageObj.crossOrigin = "Anonymous";
   // imageObj.src = 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Rectangle_.png';
@@ -110,6 +110,7 @@ class Map {
     this.imageY = -60;
 
     this.speed = 4;
+    this.climb = 4;
 
     this.tankX = 500;
     this.tankY = 50;
@@ -186,7 +187,7 @@ class Map {
         let newX = this.tankX - 1;
   			if(this.collisionTest(newX, this.tankY, this.tankMap,this.terrainMap)){
           let newY = this.tankY;
-  				for (let j=0; j < 1000; j++){
+  				for (let j=0; j < this.climb; j++){
             newY-=1;
             if (!this.collisionTest(newX, newY, this.tankMap,this.terrainMap)){
               this.tankX = newX;
@@ -211,7 +212,7 @@ class Map {
         let newX = this.tankX + 1;
   			if(this.collisionTest(newX, this.tankY, this.tankMap,this.terrainMap)){
           let newY = this.tankY;
-  				for (let j=0; j < this.speed*2; j++){
+  				for (let j=0; j < this.climb; j++){
             newY-=1;
             if (!this.collisionTest(newX, newY, this.tankMap,this.terrainMap)){
               this.tankX = newX;
