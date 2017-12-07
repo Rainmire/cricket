@@ -107,7 +107,7 @@ class Map {
     this.imageX = 0;
     this.imageY = 40;
 
-    this.speed = 1;
+    this.speed = 4;
 
     this.tankX = 100;
     this.tankY = 50;
@@ -185,39 +185,49 @@ class Map {
   moveTank() {
 
     if (this.left_key) {
-				if(!this.collisionTest(this.tankMap,this.terrainMap)){
-					this.tankX -= this.speed;
-				}
-				while(this.collisionTest(this.tankMap,this.terrainMap)){
-					this.tankY -= this.speed;
-				}
+      for (let i=0; i < this.speed; i++) {
+        let newX = this.tankX - 1;
+  			if(!this.collisionTest(newX, this.tankY, this.tankMap,this.terrainMap)){
+  				this.tankX = newX;
+  			}
+        let newY = this.tankY - 1;
+  			while(this.collisionTest(this.tankX, newY, this.tankMap,this.terrainMap)){
+  				this.tankY = newY;
+  			}
+      }
 		}
     if (this.right_key) {
-        if(!this.collisionTest(this.tankMap,this.terrainMap)){
-          this.tankX += this.speed;
+      for (let i=0; i < this.speed; i++) {
+        let newX = this.tankX + 1;
+        if(!this.collisionTest(newX, this.tankY, this.tankMap,this.terrainMap)){
+          this.tankX = newX;
         }
-        while(this.collisionTest(this.tankMap,this.terrainMap)){
-          this.tankY -= this.speed;
+        let newY = this.tankY - 1;
+        while(this.collisionTest(this.tankX, newY, this.tankMap,this.terrainMap)){
+          this.tankY = newY;
         }
+      }
     }
 
     //falling
-    // var test = 0;
-    if(!this.collisionTest(this.tankMap, this.terrainMap)){
-			this.tankY += 1;
-		}
+    for (let i=0; i < this.speed; i++) {
+      let newY = this.tankY + 1;
+      if(!this.collisionTest(this.tankX, newY, this.tankMap, this.terrainMap)){
+  			this.tankY = newY;
+  		}
+    }
     // this.tankContext.clearRect(this.tankX, this.tankY, this.tankMap.width, this.tankMap.height);
-    this.tankContext.clearRect(0, 0, 578, 400);
-
-    this.tankContext.putImageData(this.tankMap,this.tankX,this.tankY);
+    // this.tankContext.clearRect(0, 0, 578, 400);
+    //
+    // this.tankContext.putImageData(this.tankMap,this.tankX,this.tankY);
     this.drawTank();
     // console.log(test);
   }
 
-  collisionTest(smallerObj, biggerObj) {
+  collisionTest(x, y ,smallerObj, biggerObj) {
     for (let i = 0; i < smallerObj.width; i++) {
       for (let j = 0; j < smallerObj.height; j++) {
-        if (this.getPixel(i+this.tankX, j+this.tankY,biggerObj)) {
+        if (this.getPixel(i+x, j+y,biggerObj)) {
           return true;
         }
       }
