@@ -4,12 +4,14 @@ class Map {
   constructor(imageObj){
     var canvas = document.getElementById('myCanvas');
     var context = canvas.getContext('2d');
+    this.canvasWidth = canvas.width;
+    this.canvasHeight = canvas.height;
     this.imageX = 0;
-    this.imageY = 40;
+    this.imageY = -60;
 
     this.speed = 4;
 
-    this.tankX = 250;
+    this.tankX = 500;
     this.tankY = 50;
 
     var imageWidth = imageObj.width;
@@ -20,8 +22,8 @@ class Map {
     this.terrainMap = context.getImageData(0, 0, imageWidth, imageHeight);
 
     // this.terrainMap = imageData.data;
-    document.onkeydown = this.key_down.bind(this);
-		document.onkeyup = this.key_up.bind(this);
+    document.onkeydown = this.keyDown.bind(this);
+		document.onkeyup = this.keyUp.bind(this);
 
     this.left_key = false;
     this.right_key = false;
@@ -65,7 +67,7 @@ class Map {
   }
 
   drawTank() {
-    this.tankContext.clearRect(0, 0, 578, 400);
+    this.tankContext.clearRect(0, 0, this.terrainMap.width, this.terrainMap.height);
     this.tankContext.putImageData(this.tankMap,this.tankX,this.tankY);
   }
 
@@ -79,6 +81,9 @@ class Map {
 
     if (this.left_key) {
       for (let i=0; i < this.speed; i++) {
+        if (this.tankX<0) {
+          break;
+        }
         //hill climbing
         let newX = this.tankX - 1;
   			if(this.collisionTest(newX, this.tankY, this.tankMap,this.terrainMap)){
@@ -98,12 +103,17 @@ class Map {
       }
 		}
     if (this.right_key) {
+      // debugger;
       for (let i=0; i < this.speed; i++) {
+        // debugger;
+        if (this.tankX+this.tankMap.width>this.canvasWidth-1) {
+          break;
+        }
         //hill climbing
         let newX = this.tankX + 1;
   			if(this.collisionTest(newX, this.tankY, this.tankMap,this.terrainMap)){
           let newY = this.tankY;
-  				for (let j=0; j < 1000; j++){
+  				for (let j=0; j < this.speed*2; j++){
             newY-=1;
             if (!this.collisionTest(newX, newY, this.tankMap,this.terrainMap)){
               this.tankX = newX;
@@ -119,7 +129,7 @@ class Map {
     }
 
     //falling
-    for (let i=0; i < this.speed; i++) {
+    for (let i=0; i < this.speed*2; i++) {
       let newY = this.tankY + 1;
       if(!this.collisionTest(this.tankX, newY, this.tankMap, this.terrainMap)){
   			this.tankY = newY;
@@ -176,7 +186,7 @@ class Map {
   //   // return false;
   // }
 
-  key_down() {
+  keyDown() {
     let KeyID = event.keyCode;
     if (KeyID === 37) {
 				this.left_key = true;
@@ -189,7 +199,7 @@ class Map {
 		}
   }
 
-  key_up() {
+  keyUp() {
     var KeyID = event.keyCode;
 		if (KeyID === 37) {
 			this.left_key = false;
