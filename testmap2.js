@@ -7,8 +7,8 @@ class Map {
     this.imageX = 0;
     this.imageY = 0;
 
-    this.tankX = 30;
-    this.tankY = 30;
+    this.tankX = 40;
+    this.tankY = 40;
 
     var imageWidth = imageObj.width;
     var imageHeight = imageObj.height;
@@ -66,7 +66,7 @@ class Map {
     // tankContext.drawImage(tankCanvas, 10, 10);
 
     console.log(this.collisionTest(tankMap, this.terrainMap));
-
+    this.frame();
     // let x = 50;
     // let y = 50;
     // let r = (y * this.terrainMap.width + x) * 4;
@@ -80,22 +80,22 @@ class Map {
     // debugger;
   }
 
-  // frame() {
-  //   this.moveTank();
-  //   var that = this;
-  //   setTimeout(function(){ that.frame(); }, 1000 / 60);
-  // }
-  //
-  // moveTank() {
-  //   //falling
-  //
-  // }
+  frame() {
+    this.moveTank();
+    var that = this;
+    setTimeout(function(){ that.frame(); }, 1000 / 60);
+  }
+
+  moveTank() {
+    //falling
+
+  }
 
   collisionTest(smallerObj, biggerObj) {
 // debugger;
     for (let i = 0; i < smallerObj.width; i++) {
       for (let j = 0; j < smallerObj.height; j++) {
-        if (this.getPixel(i+this.tankX, j+this.tankY,this.terrainMap)) {
+        if (this.getPixel(i+this.tankX, j+this.tankY,biggerObj)) {
           return true;
         }
       }
