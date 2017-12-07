@@ -105,55 +105,45 @@ class Map {
     var canvas = document.getElementById('myCanvas');
     var context = canvas.getContext('2d');
     this.imageX = 0;
-    this.imageY = 0;
+    this.imageY = 100;
 
-    this.tankX = 40;
-    this.tankY = 40;
+    // this.speed = 2;
+
+    this.tankX = 100;
+    this.tankY = 30;
 
     var imageWidth = imageObj.width;
     var imageHeight = imageObj.height;
 
     context.drawImage(imageObj, this.imageX, this.imageY);
 
-    this.terrainMap = context.getImageData(this.imageX, this.imageY, imageWidth, imageHeight);
+    this.terrainMap = context.getImageData(0, 0, imageWidth, imageHeight);
     // this.terrainMap = imageData.data;
 
+
+    this.left_key = false;
+    this.right_key = false;
+
     this.drawTank();
-    // this.frame();
+    this.frame();
   }
   drawTank () {
     var tankCanvas = document.getElementById('tankCanvas');
-    var tankContext = tankCanvas.getContext('2d');
+    this.tankContext = tankCanvas.getContext('2d');
 
     // var imageX = 69;
     // var imageY = 50;
     // var imageWidth = imageObj.width;
     // var imageHeight = imageObj.height;
 
-    /***
-    tankContext.fillStyle = "red";
-    tankContext.fillRect(this.tankX+this.imageX, this.tankY+this.imageY, 10,10);
 
-    // this.context.drawImage(imageObj, imageX, imageY);
-    //
-    var imageData = tankContext.getImageData(this.imageX, this.imageY, 10, 10);
-    this.tankMap = imageData.data;
-
-    for(var i = 0, n = this.tankMap.length; i < n; i += 4) {
-      var red = this.tankMap[i];
-      var green = this.tankMap[i + 1];
-      var blue = this.tankMap[i + 2];
-      var alpha = this.tankMap[i + 3];
-      console.log(red+", "+green+", "+blue+", "+alpha);
-    }
-    ***/
 
     // var data = this.imageData.data;
     //
 
-    // tankContext.fillStyle = "red";
-    var tankMap = tankContext.createImageData(10,10);
-    var tankData = tankMap.data;
+    // this.tankContext.fillStyle = "red";
+    this.tankMap = this.tankContext.createImageData(10,10);
+    var tankData = this.tankMap.data;
     for(var i = 0, n = tankData.length; i < n; i += 4) {
       tankData[i] = 255;
       tankData[i + 1] = 0;
@@ -162,13 +152,13 @@ class Map {
     }
 
 
-    tankContext.putImageData(tankMap,this.tankX,this.tankY);
-    // tankContext.drawImage(tankCanvas, 10, 10);
+    this.tankContext.putImageData(this.tankMap,this.tankX,this.tankY);
+    // this.tankContext.drawImage(tankCanvas, 10, 10);
 
-    console.log(this.collisionTest(tankMap, this.terrainMap));
-    this.frame();
-    // let x = 50;
-    // let y = 50;
+    // console.log(this.collisionTest(this.tankMap, this.terrainMap));
+    // this.frame();
+    // let x = 100;
+    // let y = 110;
     // let r = (y * this.terrainMap.width + x) * 4;
 		// let g = (y * this.terrainMap.width + x) * 4 + 1;
 		// let b = (y * this.terrainMap.width + x) * 4 + 2;
@@ -187,8 +177,20 @@ class Map {
   }
 
   moveTank() {
-    //falling
 
+    
+    //falling
+    // var test = 0;
+    if(!this.collisionTest(this.tankMap, this.terrainMap)){
+			this.tankY += 1;
+		}
+    // debugger;
+    // this.tankContext.clearRect(this.tankX, this.tankY, this.tankMap.width, this.tankMap.height);
+    this.tankContext.clearRect(0, 0, 578, 400);
+
+    this.tankContext.putImageData(this.tankMap,this.tankX,this.tankY);
+
+    // console.log(test);
   }
 
   collisionTest(smallerObj, biggerObj) {
@@ -211,10 +213,15 @@ class Map {
 		let b = (y * map.width + x) * 4 + 2;
 		let a = (y * map.width + x) * 4 + 3;
 // debugger;
-    if (map.data[r]===255 && map.data[g]===255 && map.data[b]===255) {
-      return false;
+    // if (map.data[r]===255 && map.data[g]===255 && map.data[b]===255) {
+    //   return false;
+    // }
+    if (map.data[r]===85 && map.data[g]===142 && map.data[b]===213) {
+      return true;
     }
-    return true;
+
+    // return true;
+    return false;
   }
 
 
