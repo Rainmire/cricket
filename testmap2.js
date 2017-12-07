@@ -25,6 +25,8 @@ class Map {
 
     this.left_key = false;
     this.right_key = false;
+    this.space_key = false;
+    this.jumping = false;
 
     this.initTank();
     this.frame();
@@ -182,6 +184,9 @@ class Map {
 		if (KeyID === 39) {
 			this.right_key = true;
 		}
+    if (KeyID === 32) {
+			this.space_key = true;
+		}
   }
 
   key_up() {
@@ -191,6 +196,9 @@ class Map {
 		}
 		if (KeyID === 39) {
 			this.right_key = false;
+		}
+    if (KeyID === 32) {
+			this.space_key = false;
 		}
   }
 }
