@@ -77,7 +77,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const map = new __WEBPACK_IMPORTED_MODULE_0__testmap2__["a" /* default */](this);
   };
   imageObj.crossOrigin = "Anonymous";
-  imageObj.src = 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Rectangle_.png';
+  // imageObj.src = 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Rectangle_.png';
+  imageObj.src = 'http://res.cloudinary.com/rainmire/image/upload/v1512626000/export_gg4k72.png';
 });
 // const Game = function Game() {
 //   return {
@@ -133,17 +134,6 @@ class Map {
     var tankCanvas = document.getElementById('tankCanvas');
     this.tankContext = tankCanvas.getContext('2d');
 
-    // var imageX = 69;
-    // var imageY = 50;
-    // var imageWidth = imageObj.width;
-    // var imageHeight = imageObj.height;
-
-
-
-    // var data = this.imageData.data;
-    //
-
-    // this.tankContext.fillStyle = "red";
     this.tankMap = this.tankContext.createImageData(10,10);
     var tankData = this.tankMap.data;
     for(var i = 0, n = tankData.length; i < n; i += 4) {
@@ -159,16 +149,18 @@ class Map {
 
     // console.log(this.collisionTest(this.tankMap, this.terrainMap));
     // this.frame();
-    // let x = 100;
-    // let y = 110;
-    // let r = (y * this.terrainMap.width + x) * 4;
-		// let g = (y * this.terrainMap.width + x) * 4 + 1;
-		// let b = (y * this.terrainMap.width + x) * 4 + 2;
-		// let a = (y * this.terrainMap.width + x) * 4 + 3;
-    // console.log(this.terrainMap.data[r]);
-    // console.log(this.terrainMap.data[g]);
-    // console.log(this.terrainMap.data[b]);
-    // console.log(this.terrainMap.data[a]);
+
+    //PIXEL SAMPLING
+    let x = 100;
+    let y = 110;
+    let r = (y * this.terrainMap.width + x) * 4;
+		let g = (y * this.terrainMap.width + x) * 4 + 1;
+		let b = (y * this.terrainMap.width + x) * 4 + 2;
+		let a = (y * this.terrainMap.width + x) * 4 + 3;
+    console.log(this.terrainMap.data[r]);
+    console.log(this.terrainMap.data[g]);
+    console.log(this.terrainMap.data[b]);
+    console.log(this.terrainMap.data[a]);
   }
 
   drawTank() {
@@ -242,16 +234,30 @@ class Map {
 		let g = (y * map.width + x) * 4 + 1;
 		let b = (y * map.width + x) * 4 + 2;
 		let a = (y * map.width + x) * 4 + 3;
-    // if (map.data[r]===255 && map.data[g]===255 && map.data[b]===255) {
-    //   return false;
-    // }
-    if (map.data[r]===85 && map.data[g]===142 && map.data[b]===213) {
-      return true;
+    if (map.data[r]===255 && map.data[g]===255 && map.data[b]===255) {
+      return false;
     }
+    // if (map.data[r]===85 && map.data[g]===142 && map.data[b]===213) {
+    //   return true;
+    // }
 
-    // return true;
-    return false;
+    return true;
+    // return false;
   }
+
+  // getPixel(x,y,map){
+  //   if(x < 0 || y < 0 || x > map.width || y > map.height) return;
+  //   let r = (y * map.width + x) * 4;
+  //   let g = (y * map.width + x) * 4 + 1;
+  //   let b = (y * map.width + x) * 4 + 2;
+  //   let a = (y * map.width + x) * 4 + 3;
+
+  //   // if (map.data[r]===85 && map.data[g]===142 && map.data[b]===213) {
+  //   //   return true;
+  //   // }
+  //
+  //   // return false;
+  // }
 
   key_down() {
     let KeyID = event.keyCode;
