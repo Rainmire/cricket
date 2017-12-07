@@ -227,8 +227,19 @@ class Map {
     }
 
     if (this.space_key && !this.jumping) {
-      this.upForce = 10*this.speed;
+      this.upForce = 5*this.speed;
       this.jumping = true;
+    }
+
+    //jumping
+    if (this.upForce > 0) {
+      for (let i = 0; i < this.upForce; i++) {
+        let newY = this.tankY - 1;
+        if(!this.collisionTest(this.tankX, newY, this.tankMap, this.terrainMap)){
+    			this.tankY = newY;
+    		}
+      }
+      this.upForce--;
     }
 
     //falling
@@ -237,6 +248,9 @@ class Map {
       if(!this.collisionTest(this.tankX, newY, this.tankMap, this.terrainMap)){
   			this.tankY = newY;
   		}
+      else {
+        this.jumping = false;
+      }
     }
 
     this.drawTank();
@@ -266,8 +280,6 @@ class Map {
 
     return true;
   }
-
-
 
   keyDown() {
     let KeyID = event.keyCode;
