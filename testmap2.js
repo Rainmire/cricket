@@ -9,7 +9,7 @@ class Map {
 
     this.speed = 4;
 
-    this.tankX = 100;
+    this.tankX = 250;
     this.tankY = 50;
 
     var imageWidth = imageObj.width;
@@ -77,14 +77,30 @@ class Map {
 
     if (this.left_key) {
       for (let i=0; i < this.speed; i++) {
+        // let newX = this.tankX - 1;
+  			// if(!this.collisionTest(newX, this.tankY, this.tankMap,this.terrainMap)){
+  			// 	this.tankX = newX;
+  			// }
+        // let newY = this.tankY - 1;
+  			// while(this.collisionTest(this.tankX, newY, this.tankMap,this.terrainMap)){
+  			// 	this.tankY = newY;
+  			// }
+        //hill climbing
         let newX = this.tankX - 1;
-  			if(!this.collisionTest(newX, this.tankY, this.tankMap,this.terrainMap)){
-  				this.tankX = newX;
+  			if(this.collisionTest(newX, this.tankY, this.tankMap,this.terrainMap)){
+          let newY = this.tankY;
+  				for (let j=0; j < 1000; j++){
+            newY-=1;
+            if (!this.collisionTest(newX, newY, this.tankMap,this.terrainMap)){
+              this.tankX = newX;
+              this.tankY = newY;
+              break;
+            }
+          }
   			}
-        let newY = this.tankY - 1;
-  			while(this.collisionTest(this.tankX, newY, this.tankMap,this.terrainMap)){
-  				this.tankY = newY;
-  			}
+        else {
+          this.tankX = newX;
+        }
       }
 		}
     if (this.right_key) {
