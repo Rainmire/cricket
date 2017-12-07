@@ -178,14 +178,6 @@ class Map {
 
     if (this.left_key) {
       for (let i=0; i < this.speed; i++) {
-        // let newX = this.tankX - 1;
-  			// if(!this.collisionTest(newX, this.tankY, this.tankMap,this.terrainMap)){
-  			// 	this.tankX = newX;
-  			// }
-        // let newY = this.tankY - 1;
-  			// while(this.collisionTest(this.tankX, newY, this.tankMap,this.terrainMap)){
-  			// 	this.tankY = newY;
-  			// }
         //hill climbing
         let newX = this.tankX - 1;
   			if(this.collisionTest(newX, this.tankY, this.tankMap,this.terrainMap)){
@@ -206,13 +198,21 @@ class Map {
 		}
     if (this.right_key) {
       for (let i=0; i < this.speed; i++) {
+        //hill climbing
         let newX = this.tankX + 1;
-        if(!this.collisionTest(newX, this.tankY, this.tankMap,this.terrainMap)){
+  			if(this.collisionTest(newX, this.tankY, this.tankMap,this.terrainMap)){
+          let newY = this.tankY;
+  				for (let j=0; j < 1000; j++){
+            newY-=1;
+            if (!this.collisionTest(newX, newY, this.tankMap,this.terrainMap)){
+              this.tankX = newX;
+              this.tankY = newY;
+              break;
+            }
+          }
+  			}
+        else {
           this.tankX = newX;
-        }
-        let newY = this.tankY - 1;
-        while(this.collisionTest(this.tankX, newY, this.tankMap,this.terrainMap)){
-          this.tankY = newY;
         }
       }
     }
