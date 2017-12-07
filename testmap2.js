@@ -7,8 +7,8 @@ class Map {
     this.imageX = 0;
     this.imageY = 0;
 
-    this.tankX = 0;
-    this.tankY = 0;
+    this.tankX = 40;
+    this.tankY = 40;
 
     var imageWidth = imageObj.width;
     var imageHeight = imageObj.height;
@@ -65,7 +65,19 @@ class Map {
     tankContext.putImageData(imageData,this.tankX,this.tankY);
     // tankContext.drawImage(tankCanvas, 10, 10);
 
-    // console.log(this.collisionTest(this.terrainMap, tankMap));
+    console.log(this.collisionTest(imageData, this.terrainMap));
+
+    // let x = 50;
+    // let y = 50;
+    // let r = (y * this.terrainMap.width + x) * 4;
+		// let g = (y * this.terrainMap.width + x) * 4 + 1;
+		// let b = (y * this.terrainMap.width + x) * 4 + 2;
+		// let a = (y * this.terrainMap.width + x) * 4 + 3;
+    // console.log(this.terrainMap.data[r]);
+    // console.log(this.terrainMap.data[g]);
+    // console.log(this.terrainMap.data[b]);
+    // console.log(this.terrainMap.data[a]);
+    // debugger;
   }
 
   // frame() {
@@ -80,16 +92,15 @@ class Map {
   // }
 
   collisionTest(smallerObj, biggerObj) {
-
-    for (let i = 0; i < smallerObj.height; i++) {
-      for (let j = 0; j < smallerObj.width; j++) {
-
+// debugger;
+    for (let i = 0; i < smallerObj.width; i++) {
+      for (let j = 0; j < smallerObj.height; j++) {
+        if (this.getPixel(i+this.tankX, j+this.tankY,this.terrainMap)) {
+          return true;
+        }
       }
     }
-
-    for (let i = 0; i < smallerObj.data.length; i++) {
-
-    }
+    return false;
 
   }
 
@@ -99,11 +110,11 @@ class Map {
 		let g = (y * map.width + x) * 4 + 1;
 		let b = (y * map.width + x) * 4 + 2;
 		let a = (y * map.width + x) * 4 + 3;
-
-    if (map.data[r]===0 && map.data[g]===0 && map.data[b]===0 && map.data[a]===0) {
-      return true;
+// debugger;
+    if (map.data[r]===255 && map.data[g]===255 && map.data[b]===255) {
+      return false;
     }
-    return false;
+    return true;
   }
 
 
