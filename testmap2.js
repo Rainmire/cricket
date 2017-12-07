@@ -5,12 +5,12 @@ class Map {
     var canvas = document.getElementById('myCanvas');
     var context = canvas.getContext('2d');
     this.imageX = 0;
-    this.imageY = 100;
+    this.imageY = 40;
 
-    // this.speed = 2;
+    this.speed = 1;
 
     this.tankX = 100;
-    this.tankY = 30;
+    this.tankY = 50;
 
     var imageWidth = imageObj.width;
     var imageHeight = imageObj.height;
@@ -18,16 +18,18 @@ class Map {
     context.drawImage(imageObj, this.imageX, this.imageY);
 
     this.terrainMap = context.getImageData(0, 0, imageWidth, imageHeight);
-    // this.terrainMap = imageData.data;
 
+    // this.terrainMap = imageData.data;
+    document.onkeydown = this.key_down.bind(this);
+		document.onkeyup = this.key_up.bind(this);
 
     this.left_key = false;
     this.right_key = false;
 
-    this.drawTank();
+    this.initTank();
     this.frame();
   }
-  drawTank () {
+  initTank () {
     var tankCanvas = document.getElementById('tankCanvas');
     this.tankContext = tankCanvas.getContext('2d');
 
@@ -67,7 +69,11 @@ class Map {
     // console.log(this.terrainMap.data[g]);
     // console.log(this.terrainMap.data[b]);
     // console.log(this.terrainMap.data[a]);
-    // debugger;
+  }
+
+  drawTank() {
+    this.tankContext.clearRect(0, 0, 578, 400);
+    this.tankContext.putImageData(this.tankMap,this.tankX,this.tankY);
   }
 
   frame() {
@@ -78,23 +84,37 @@ class Map {
 
   moveTank() {
 
-    
+    if (this.left_key) {
+				if(!this.collisionTest(this.tankMap,this.terrainMap)){
+					this.tankX -= this.speed;
+				}
+				while(this.collisionTest(this.tankMap,this.terrainMap)){
+					this.tankY -= this.speed;
+				}
+		}
+    if (this.right_key) {
+        if(!this.collisionTest(this.tankMap,this.terrainMap)){
+          this.tankX += this.speed;
+        }
+        while(this.collisionTest(this.tankMap,this.terrainMap)){
+          this.tankY -= this.speed;
+        }
+    }
+
     //falling
     // var test = 0;
     if(!this.collisionTest(this.tankMap, this.terrainMap)){
 			this.tankY += 1;
 		}
-    // debugger;
     // this.tankContext.clearRect(this.tankX, this.tankY, this.tankMap.width, this.tankMap.height);
     this.tankContext.clearRect(0, 0, 578, 400);
 
     this.tankContext.putImageData(this.tankMap,this.tankX,this.tankY);
-
+    this.drawTank();
     // console.log(test);
   }
 
   collisionTest(smallerObj, biggerObj) {
-// debugger;
     for (let i = 0; i < smallerObj.width; i++) {
       for (let j = 0; j < smallerObj.height; j++) {
         if (this.getPixel(i+this.tankX, j+this.tankY,biggerObj)) {
@@ -112,7 +132,6 @@ class Map {
 		let g = (y * map.width + x) * 4 + 1;
 		let b = (y * map.width + x) * 4 + 2;
 		let a = (y * map.width + x) * 4 + 3;
-// debugger;
     // if (map.data[r]===255 && map.data[g]===255 && map.data[b]===255) {
     //   return false;
     // }
@@ -124,8 +143,25 @@ class Map {
     return false;
   }
 
+  key_down() {
+    let KeyID = event.keyCode;
+    if (KeyID === 37) {
+				this.left_key = true;
+		}
+		if (KeyID === 39) {
+			this.right_key = true;
+		}
+  }
 
-
+  key_up() {
+    var KeyID = event.keyCode;
+		if (KeyID === 37) {
+			this.left_key = false;
+		}
+		if (KeyID === 39) {
+			this.right_key = false;
+		}
+  }
 }
 
 export default Map;
