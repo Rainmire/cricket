@@ -107,8 +107,8 @@ class Map {
     this.imageX = 0;
     this.imageY = 0;
 
-    this.tankX = 40;
-    this.tankY = 40;
+    this.tankX = 30;
+    this.tankY = 30;
 
     var imageWidth = imageObj.width;
     var imageHeight = imageObj.height;
@@ -152,20 +152,20 @@ class Map {
     //
 
     // tankContext.fillStyle = "red";
-    var imageData = tankContext.createImageData(10,10);
-    var tankMap = imageData.data;
-    for(var i = 0, n = tankMap.length; i < n; i += 4) {
-      tankMap[i] = 255;
-      tankMap[i + 1] = 0;
-      tankMap[i + 2] = 0;
-      tankMap[i + 3] = 255;
+    var tankMap = tankContext.createImageData(10,10);
+    var tankData = tankMap.data;
+    for(var i = 0, n = tankData.length; i < n; i += 4) {
+      tankData[i] = 255;
+      tankData[i + 1] = 0;
+      tankData[i + 2] = 0;
+      tankData[i + 3] = 255;
     }
 
 
-    tankContext.putImageData(imageData,this.tankX,this.tankY);
+    tankContext.putImageData(tankMap,this.tankX,this.tankY);
     // tankContext.drawImage(tankCanvas, 10, 10);
 
-    console.log(this.collisionTest(imageData, this.terrainMap));
+    console.log(this.collisionTest(tankMap, this.terrainMap));
 
     // let x = 50;
     // let y = 50;
