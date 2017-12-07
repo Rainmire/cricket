@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function() {
 class Map {
 
   constructor(imageObj){
-    var canvas = document.getElementById('myCanvas');
+    var canvas = document.getElementById('terrainCanvas');
     var context = canvas.getContext('2d');
     this.canvasWidth = canvas.width;
     this.canvasHeight = canvas.height;
@@ -128,6 +128,8 @@ class Map {
     this.right_key = false;
     this.space_key = false;
     this.jumping = false;
+
+    this.upForce = 0;
 
     this.initTank();
     this.frame();
@@ -222,6 +224,11 @@ class Map {
           this.tankX = newX;
         }
       }
+    }
+
+    if (this.space_key && !this.jumping) {
+      this.upForce = 10*this.speed;
+      this.jumping = true;
     }
 
     //falling
