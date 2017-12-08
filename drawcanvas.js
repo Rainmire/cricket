@@ -1,6 +1,5 @@
 class DrawCanvas {
   constructor() {
-    // debugger;
     this.canvas = document.getElementById('terrainCanvas');
     this.drawCtx = this.canvas.getContext("2d");
     this.fill = "black";

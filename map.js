@@ -12,7 +12,7 @@ class Map {
     this.speed = 10;
     this.climb = 4;
 
-    this.cricketX = 500;
+    this.cricketX = 550;
     this.cricketY = 300;
 
     document.onkeydown = this.keyDown.bind(this);
@@ -25,12 +25,18 @@ class Map {
 
     this.upForce = 0;
 
+    this.playing = true;
+
     this.initTerrain();
     this.initCricket();
     // this.initGoal();
     this.frame();
   }
 
+  clearAllCanvas() {
+    this.terrainContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    this.cricketContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+  }
 
   initTerrain() {
     var terrainCanvas = document.getElementById('terrainCanvas');
@@ -64,10 +70,14 @@ class Map {
 
   drawCricket() {
     this.cricketContext.clearRect(0, 0, this.terrainMap.width, this.terrainMap.height);
+
     this.cricketContext.putImageData(this.cricketMap,this.cricketX,this.cricketY);
   }
 
   frame() {
+    if (!this.playing) {
+      return;
+    }
     this.terrainMap = this.terrainContext.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
 
     // // PIXEL SAMPLING
@@ -92,6 +102,7 @@ class Map {
   }
 
   gameOver() {
+    this.playing = false;
     let modal = document.getElementById('gameover-modal');
     modal.style.display = "block";
   }
