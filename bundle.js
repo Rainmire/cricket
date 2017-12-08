@@ -74,12 +74,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 document.addEventListener("DOMContentLoaded", function() {
   var map;
   const reset = document.getElementById("reset-btn");
+  const winModal = document.getElementById("gameover-modal");
   reset.onclick = () => {
-    map = null;
+    console.log("click");
+    map = new __WEBPACK_IMPORTED_MODULE_0__map__["a" /* default */]();
+    winModal.style.display = "none";
   };
 
   map = new __WEBPACK_IMPORTED_MODULE_0__map__["a" /* default */]();
-
 
 });
 
@@ -105,7 +107,7 @@ class Map {
     this.climb = 4;
 
     this.cricketX = 500;
-    this.cricketY = 50;
+    this.cricketY = 300;
 
     document.onkeydown = this.keyDown.bind(this);
 		document.onkeyup = this.keyUp.bind(this);
@@ -123,11 +125,15 @@ class Map {
     this.frame();
   }
 
+
   initTerrain() {
     var terrainCanvas = document.getElementById('terrainCanvas');
     this.terrainContext = terrainCanvas.getContext('2d');
+
     this.canvasWidth = terrainCanvas.width;
     this.canvasHeight = terrainCanvas.height;
+
+    this.terrainContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
     this.drawCanvas = new __WEBPACK_IMPORTED_MODULE_0__drawcanvas__["a" /* default */]();
   }
@@ -135,6 +141,7 @@ class Map {
   initCricket () {
     var cricketCanvas = document.getElementById('cricketCanvas');
     this.cricketContext = cricketCanvas.getContext('2d');
+    this.cricketContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
     this.cricketMap = this.cricketContext.createImageData(10,10);
     var cricketData = this.cricketMap.data;
@@ -199,7 +206,7 @@ class Map {
 
     if (this.left_key) {
       for (let i=0; i < this.speed; i++) {
-        if (this.cricketX<0) {
+        if (this.cricketX<3) {
           break;
         }
         //hill climbing
@@ -221,9 +228,7 @@ class Map {
       }
 		}
     if (this.right_key) {
-      // debugger;
       for (let i=0; i < this.speed; i++) {
-        // debugger;
         if (this.cricketX+this.cricketMap.width>this.canvasWidth-1) {
           break;
         }
@@ -247,7 +252,7 @@ class Map {
     }
 
     if (this.space_key && !this.jumping) {
-      this.upForce = 4*this.speed;
+      this.upForce = 3.5*this.speed;
       this.jumping = true;
     }
 
