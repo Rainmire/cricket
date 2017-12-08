@@ -1,18 +1,14 @@
-# BattleTanks - Turn-Based Projectile Combat Game
+# Canvas Cricket - A Pixel-Collision Based Physics Engine Demo
 
 ### Background and Overview
-BattleTanks is a game where you control a tank and take turns playing against an AI opponent. Tanks can fire projectiles that are affected by gravity and do damage on hit. When the opponent's HP drops to 0, you win!
+Cricket is a demo in pixel collisions presented as a quick puzzle game. The objective is to move the cricket to the goal using the keyboard to move and the mouse to draw platforms to stand on.
 
 ### Functionality & MVP
-* Tanks can move across the surface of the terrain and have a certain amount of HP. When HP drops to zero, the tank is destroyed.
-* Tanks can shoot projectiles which travel a distance based on the amount of power the player sets before firing.
-* Projectiles are affected by gravity and will drop with distance.
-* AI opponent moves and calculates projectile path when attempting to shoot the player.
+* User can control the cricket using arrow keys and spacebar.
+* User can draw on the canvas using the mouse to draw terrain.
+* Physics engine applies gravity and detects collision between the cricket and terrain, preventing the cricket from moving through drawn terrain.
 
 ### Wireframes
-The terrain will consist of hills on which the two tanks will be placed. At the bottom is a slider to adjust the power of the shot and a fire button which is active on the player's turn.
-
-![](https://github.com/Rainmire/tanks/blob/master/docs/Wireframes.png)
 
 ### Architecture and Technologies
 This project will be implemented with the following technologies:
@@ -21,10 +17,9 @@ This project will be implemented with the following technologies:
 * `HTML5 Canvas` for rendering terrain and tanks
 
 The architecture for this project will be:
-`map.js`: this script will handle rendering the game
-`tanks.js`: this script will handle the logic for tank actions
-`computerplayer.js`: this script allows the AI to make the best possible moves
-`game.js`: this script handles the game logic, including turns and game over
+`map.js`: houses the physics engine and renders the cricket
+`drawcanvas.js`: allows user to draw terrain on the canvas
+`game.js`: initializes the game, and resets the game when the user reaches the goal
 
 ### Implementation Timeline
 
@@ -33,15 +28,13 @@ Day 1:
 * Setup entry file
 
 Day 2:
-* complete `map.js` and make sure it renders properly
+* Begin working on `map.js` physics engine
 
 Day 3:
-* Complete `game.js` and `tanks.js`
-* Make sure game is playable
+* Complete `map.js` and `game.js`
 
 Day 4:
-* Complete `computerplayer.js`
-* Make sure AI works
+* Complete `drawcanvas.js`
 
-Bonus:
-Generate terrain dynamically
+Day 5:
+* Game testing
