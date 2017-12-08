@@ -99,15 +99,15 @@ document.addEventListener("DOMContentLoaded", function() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-// import DrawCanvas from 'drawcanvas';
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__drawcanvas__ = __webpack_require__(2);
+
 
 class Map {
 
   constructor(imageObj){
-    var canvas = document.getElementById('terrainCanvas');
-    var context = canvas.getContext('2d');
-    this.canvasWidth = canvas.width;
-    this.canvasHeight = canvas.height;
+    // var canvas = document.getElementById('terrainCanvas');
+    // var context = canvas.getContext('2d');
+
     this.imageX = 0;
     this.imageY = -60;
 
@@ -124,17 +124,17 @@ class Map {
     //
     // context.drawImage(imageObj, this.imageX, this.imageY);
 
-    context.beginPath();
-    context.moveTo(0, 300);
-    context.lineTo(550, 300);
-    // context.strokeStyle = x;
-    // context.lineWidth = y;
-    context.stroke();
-    context.closePath();
+    // context.beginPath();
+    // context.moveTo(0, 300);
+    // context.lineTo(550, 300);
+    // // context.strokeStyle = x;
+    // // context.lineWidth = y;
+    // context.stroke();
+    // context.closePath();
 
     /////////
 
-    this.terrainMap = context.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
+    // this.terrainMap = context.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
 
     document.onkeydown = this.keyDown.bind(this);
 		document.onkeyup = this.keyUp.bind(this);
@@ -146,18 +146,24 @@ class Map {
 
     this.upForce = 0;
 
+    this.initTerrain();
     this.initTank();
     this.frame();
   }
 
   initTerrain() {
-    var canvas = document.getElementById('terrainCanvas');
-    this.terrainContext = canvas.getContext('2d');
+    var terrainCanvas = document.getElementById('terrainCanvas');
+    this.terrainContext = terrainCanvas.getContext('2d');
+    this.canvasWidth = terrainCanvas.width;
+    this.canvasHeight = terrainCanvas.height;
+
+    this.drawCanvas = new __WEBPACK_IMPORTED_MODULE_0__drawcanvas__["a" /* default */]();
   }
 
-  drawTerrain() {
-
-  }
+  // drawTerrain() {
+  //   this.terrainMap = this.terrainContext.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
+  //
+  // }
 
 
   initTank () {
@@ -202,6 +208,7 @@ class Map {
   }
 
   moveTank() {
+    this.terrainMap = this.terrainContext.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
 
     if (this.left_key) {
       for (let i=0; i < this.speed; i++) {
@@ -335,6 +342,78 @@ class Map {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Map);
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class DrawCanvas {
+  constructor() {
+    this.canvas = document.getElementById('terrainCanvas');
+    this.drawCtx = this.canvas.getContext("2d");
+    this.fill = "black";
+    this.stroke = 2;
+    this.clickHold = false;
+    this.prevX = 0; this.currX = 0; this.prevY = 0; this.currY = 0;
+    let that = this;
+    this.canvas.addEventListener("mousemove", (e) => (
+        that.findxy('move', e)
+    ), false);
+    this.canvas.addEventListener("mousedown", (e) => (
+        that.findxy('down', e)
+    ), false);
+    this.canvas.addEventListener("mouseup", (e) => (
+        that.findxy('up', e)
+    ), false);
+    this.canvas.addEventListener("mouseout", (e) => (
+        that.findxy('out', e)
+    ), false);
+  }
+
+  draw() {
+    this.drawCtx.beginPath();
+    this.drawCtx.moveTo(this.prevX, this.prevY);
+    this.drawCtx.lineTo(this.currX, this.currY);
+    this.drawCtx.strokeStyle = this.fill;
+    this.drawCtx.lineWidth = this.stroke;
+    this.drawCtx.stroke();
+    this.drawCtx.closePath();
+  }
+
+
+
+  findxy(res, e) {
+    if (res === 'down') {
+        this.prevX = this.currX;
+        this.prevY = this.currY;
+        this.currX = e.clientX - this.canvas.offsetLeft;
+        this.currY = e.clientY - this.canvas.offsetTop;
+
+        this.clickHold = true;
+            this.drawCtx.beginPath();
+            this.drawCtx.fillStyle = this.fill;
+            this.drawCtx.fillRect(this.currX, this.currY, 2, 2);
+            this.drawCtx.closePath();
+
+    }
+    if (res === 'up' || res === "out") {
+        this.clickHold = false;
+    }
+    if (res === 'move') {
+        if (this.clickHold) {
+            this.prevX = this.currX;
+            this.prevY = this.currY;
+            this.currX = e.clientX - this.canvas.offsetLeft;
+            this.currY = e.clientY - this.canvas.offsetTop;
+            this.draw();
+        }
+    }
+  }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (DrawCanvas);
 
 
 /***/ })

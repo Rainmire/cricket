@@ -1,12 +1,11 @@
-// import DrawCanvas from 'drawcanvas';
+import DrawCanvas from './drawcanvas';
 
 class Map {
 
   constructor(imageObj){
-    var canvas = document.getElementById('terrainCanvas');
-    var context = canvas.getContext('2d');
-    this.canvasWidth = canvas.width;
-    this.canvasHeight = canvas.height;
+    // var canvas = document.getElementById('terrainCanvas');
+    // var context = canvas.getContext('2d');
+
     this.imageX = 0;
     this.imageY = -60;
 
@@ -23,17 +22,17 @@ class Map {
     //
     // context.drawImage(imageObj, this.imageX, this.imageY);
 
-    context.beginPath();
-    context.moveTo(0, 300);
-    context.lineTo(550, 300);
-    // context.strokeStyle = x;
-    // context.lineWidth = y;
-    context.stroke();
-    context.closePath();
+    // context.beginPath();
+    // context.moveTo(0, 300);
+    // context.lineTo(550, 300);
+    // // context.strokeStyle = x;
+    // // context.lineWidth = y;
+    // context.stroke();
+    // context.closePath();
 
     /////////
 
-    this.terrainMap = context.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
+    // this.terrainMap = context.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
 
     document.onkeydown = this.keyDown.bind(this);
 		document.onkeyup = this.keyUp.bind(this);
@@ -45,18 +44,24 @@ class Map {
 
     this.upForce = 0;
 
+    this.initTerrain();
     this.initTank();
     this.frame();
   }
 
   initTerrain() {
-    var canvas = document.getElementById('terrainCanvas');
-    this.terrainContext = canvas.getContext('2d');
+    var terrainCanvas = document.getElementById('terrainCanvas');
+    this.terrainContext = terrainCanvas.getContext('2d');
+    this.canvasWidth = terrainCanvas.width;
+    this.canvasHeight = terrainCanvas.height;
+
+    this.drawCanvas = new DrawCanvas();
   }
 
-  drawTerrain() {
-
-  }
+  // drawTerrain() {
+  //   this.terrainMap = this.terrainContext.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
+  //
+  // }
 
 
   initTank () {
@@ -101,6 +106,7 @@ class Map {
   }
 
   moveTank() {
+    this.terrainMap = this.terrainContext.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
 
     if (this.left_key) {
       for (let i=0; i < this.speed; i++) {
