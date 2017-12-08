@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", function() {
   const reset = document.getElementById("reset-btn");
   const winModal = document.getElementById("gameover-modal");
   reset.onclick = () => {
-    console.log("click");
-    map = new Map();
+    map.clearAllCanvas();
+    map = null;
     winModal.style.display = "none";
   };
 

@@ -76,8 +76,8 @@ document.addEventListener("DOMContentLoaded", function() {
   const reset = document.getElementById("reset-btn");
   const winModal = document.getElementById("gameover-modal");
   reset.onclick = () => {
-    console.log("click");
-    map = new __WEBPACK_IMPORTED_MODULE_0__map__["a" /* default */]();
+    map.clearAllCanvas();
+    map = null;
     winModal.style.display = "none";
   };
 
@@ -106,7 +106,7 @@ class Map {
     this.speed = 10;
     this.climb = 4;
 
-    this.cricketX = 500;
+    this.cricketX = 550;
     this.cricketY = 300;
 
     document.onkeydown = this.keyDown.bind(this);
@@ -119,12 +119,18 @@ class Map {
 
     this.upForce = 0;
 
+    this.playing = true;
+
     this.initTerrain();
     this.initCricket();
     // this.initGoal();
     this.frame();
   }
 
+  clearAllCanvas() {
+    this.terrainContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    this.cricketContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+  }
 
   initTerrain() {
     var terrainCanvas = document.getElementById('terrainCanvas');
@@ -158,10 +164,14 @@ class Map {
 
   drawCricket() {
     this.cricketContext.clearRect(0, 0, this.terrainMap.width, this.terrainMap.height);
+
     this.cricketContext.putImageData(this.cricketMap,this.cricketX,this.cricketY);
   }
 
   frame() {
+    if (!this.playing) {
+      return;
+    }
     this.terrainMap = this.terrainContext.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
 
     // // PIXEL SAMPLING
@@ -186,6 +196,7 @@ class Map {
   }
 
   gameOver() {
+    this.playing = false;
     let modal = document.getElementById('gameover-modal');
     modal.style.display = "block";
   }
@@ -351,7 +362,6 @@ class Map {
 "use strict";
 class DrawCanvas {
   constructor() {
-    // debugger;
     this.canvas = document.getElementById('terrainCanvas');
     this.drawCtx = this.canvas.getContext("2d");
     this.fill = "black";
