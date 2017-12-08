@@ -81,17 +81,7 @@ class Map {
     this.tankContext.putImageData(this.tankMap,this.tankX,this.tankY);
 
 
-    // // PIXEL SAMPLING
-    // let x = 100;
-    // let y = 110;
-    // let r = (y * this.terrainMap.width + x) * 4;
-		// let g = (y * this.terrainMap.width + x) * 4 + 1;
-		// let b = (y * this.terrainMap.width + x) * 4 + 2;
-		// let a = (y * this.terrainMap.width + x) * 4 + 3;
-    // console.log(this.terrainMap.data[r]);
-    // console.log(this.terrainMap.data[g]);
-    // console.log(this.terrainMap.data[b]);
-    // console.log(this.terrainMap.data[a]);
+
   }
 
   drawTank() {
@@ -100,13 +90,27 @@ class Map {
   }
 
   frame() {
+    this.terrainMap = this.terrainContext.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
+
+    // PIXEL SAMPLING
+    let x = 100;
+    let y = 110;
+    let r = (y * this.canvasWidth + x) * 4;
+    let g = (y * this.canvasWidth + x) * 4 + 1;
+    let b = (y * this.canvasWidth + x) * 4 + 2;
+    let a = (y * this.canvasWidth + x) * 4 + 3;
+    console.log(this.terrainMap.data[r]);
+    console.log(this.terrainMap.data[g]);
+    console.log(this.terrainMap.data[b]);
+    console.log(this.terrainMap.data[a]);
+    // PIXEL SAMPLING
+
     this.moveTank();
     var that = this;
     setTimeout(function(){ that.frame(); }, 1000 / 60);
   }
 
   moveTank() {
-    this.terrainMap = this.terrainContext.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
 
     if (this.left_key) {
       for (let i=0; i < this.speed; i++) {
@@ -205,7 +209,7 @@ class Map {
 		let g = (y * map.width + x) * 4 + 1;
 		let b = (y * map.width + x) * 4 + 2;
 		let a = (y * map.width + x) * 4 + 3;
-    if (map.data[r]===0 && map.data[g]===0 && map.data[b]===0) {
+    if (map.data[r]===0 && map.data[g]===0 && map.data[b]===0 && map.data[a]===0) {
       return false;
     }
 
