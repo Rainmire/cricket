@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const winModal = document.getElementById("gameover-modal");
   reset.onclick = () => {
     map.clearAllCanvas();
-    map = null;
+    map = new Map();
     winModal.style.display = "none";
   };
 
