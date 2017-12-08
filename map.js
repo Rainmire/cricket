@@ -81,17 +81,17 @@ class Map {
     this.tankContext.putImageData(this.tankMap,this.tankX,this.tankY);
 
 
-    // PIXEL SAMPLING
-    let x = 100;
-    let y = 110;
-    let r = (y * this.terrainMap.width + x) * 4;
-		let g = (y * this.terrainMap.width + x) * 4 + 1;
-		let b = (y * this.terrainMap.width + x) * 4 + 2;
-		let a = (y * this.terrainMap.width + x) * 4 + 3;
-    console.log(this.terrainMap.data[r]);
-    console.log(this.terrainMap.data[g]);
-    console.log(this.terrainMap.data[b]);
-    console.log(this.terrainMap.data[a]);
+    // // PIXEL SAMPLING
+    // let x = 100;
+    // let y = 110;
+    // let r = (y * this.terrainMap.width + x) * 4;
+		// let g = (y * this.terrainMap.width + x) * 4 + 1;
+		// let b = (y * this.terrainMap.width + x) * 4 + 2;
+		// let a = (y * this.terrainMap.width + x) * 4 + 3;
+    // console.log(this.terrainMap.data[r]);
+    // console.log(this.terrainMap.data[g]);
+    // console.log(this.terrainMap.data[b]);
+    // console.log(this.terrainMap.data[a]);
   }
 
   drawTank() {

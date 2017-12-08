@@ -183,17 +183,17 @@ class Map {
     this.tankContext.putImageData(this.tankMap,this.tankX,this.tankY);
 
 
-    // PIXEL SAMPLING
-    let x = 100;
-    let y = 110;
-    let r = (y * this.terrainMap.width + x) * 4;
-		let g = (y * this.terrainMap.width + x) * 4 + 1;
-		let b = (y * this.terrainMap.width + x) * 4 + 2;
-		let a = (y * this.terrainMap.width + x) * 4 + 3;
-    console.log(this.terrainMap.data[r]);
-    console.log(this.terrainMap.data[g]);
-    console.log(this.terrainMap.data[b]);
-    console.log(this.terrainMap.data[a]);
+    // // PIXEL SAMPLING
+    // let x = 100;
+    // let y = 110;
+    // let r = (y * this.terrainMap.width + x) * 4;
+		// let g = (y * this.terrainMap.width + x) * 4 + 1;
+		// let b = (y * this.terrainMap.width + x) * 4 + 2;
+		// let a = (y * this.terrainMap.width + x) * 4 + 3;
+    // console.log(this.terrainMap.data[r]);
+    // console.log(this.terrainMap.data[g]);
+    // console.log(this.terrainMap.data[b]);
+    // console.log(this.terrainMap.data[a]);
   }
 
   drawTank() {
@@ -351,24 +351,25 @@ class Map {
 "use strict";
 class DrawCanvas {
   constructor() {
+    // debugger;
     this.canvas = document.getElementById('terrainCanvas');
     this.drawCtx = this.canvas.getContext("2d");
     this.fill = "black";
     this.stroke = 2;
     this.clickHold = false;
     this.prevX = 0; this.currX = 0; this.prevY = 0; this.currY = 0;
-    let that = this;
-    this.canvas.addEventListener("mousemove", (e) => (
-        that.findxy('move', e)
+    // let that = this;
+    window.addEventListener("mousemove", (e) => (
+        this.findxy('move', e)
     ), false);
-    this.canvas.addEventListener("mousedown", (e) => (
-        that.findxy('down', e)
+    window.addEventListener("mousedown", (e) => (
+        this.findxy('down', e)
     ), false);
-    this.canvas.addEventListener("mouseup", (e) => (
-        that.findxy('up', e)
+    window.addEventListener("mouseup", (e) => (
+        this.findxy('up', e)
     ), false);
-    this.canvas.addEventListener("mouseout", (e) => (
-        that.findxy('out', e)
+    window.addEventListener("mouseout", (e) => (
+        this.findxy('out', e)
     ), false);
   }
 
