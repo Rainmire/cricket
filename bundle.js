@@ -117,25 +117,6 @@ class Map {
     this.cricketX = 500;
     this.cricketY = 50;
 
-    //////////DRAW TERRAIN
-
-    // var imageWidth = imageObj.width;
-    // var imageHeight = imageObj.height;
-    //
-    // context.drawImage(imageObj, this.imageX, this.imageY);
-
-    // context.beginPath();
-    // context.moveTo(0, 300);
-    // context.lineTo(550, 300);
-    // // context.strokeStyle = x;
-    // // context.lineWidth = y;
-    // context.stroke();
-    // context.closePath();
-
-    /////////
-
-    // this.terrainMap = context.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
-
     document.onkeydown = this.keyDown.bind(this);
 		document.onkeyup = this.keyUp.bind(this);
 
@@ -159,12 +140,6 @@ class Map {
 
     this.drawCanvas = new __WEBPACK_IMPORTED_MODULE_0__drawcanvas__["a" /* default */]();
   }
-
-  // drawTerrain() {
-  //   this.terrainMap = this.terrainContext.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
-  //
-  // }
-
 
   initCricket () {
     var cricketCanvas = document.getElementById('cricketCanvas');
