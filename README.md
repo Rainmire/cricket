@@ -10,6 +10,8 @@ Cricket is a demo in pixel collisions presented as a quick puzzle game. The obje
 
 ### Wireframes
 
+![](https://github.com/Rainmire/cricket/blob/master/docs/Wireframes.jpg)
+
 ### Architecture and Technologies
 This project will be implemented with the following technologies:
 * Vanilla JavaScript for overall structure and game logic
