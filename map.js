@@ -9,7 +9,7 @@ class Map {
     this.imageX = 0;
     this.imageY = -60;
 
-    this.speed = 10;
+    this.speed = 6;
     this.climb = 4;
 
     this.cricketX = 550;
@@ -169,7 +169,7 @@ class Map {
     }
 
     if (this.space_key && !this.jumping) {
-      this.upForce = 3.5*this.speed;
+      this.upForce = 4*this.speed;
       this.jumping = true;
     }
 
