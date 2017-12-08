@@ -111,7 +111,7 @@ class Map {
     this.imageX = 0;
     this.imageY = -60;
 
-    this.speed = 4;
+    this.speed = 10;
     this.climb = 4;
 
     this.tankX = 500;
@@ -194,18 +194,18 @@ class Map {
   frame() {
     this.terrainMap = this.terrainContext.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
 
-    // PIXEL SAMPLING
-    let x = 100;
-    let y = 110;
-    let r = (y * this.canvasWidth + x) * 4;
-    let g = (y * this.canvasWidth + x) * 4 + 1;
-    let b = (y * this.canvasWidth + x) * 4 + 2;
-    let a = (y * this.canvasWidth + x) * 4 + 3;
-    console.log(this.terrainMap.data[r]);
-    console.log(this.terrainMap.data[g]);
-    console.log(this.terrainMap.data[b]);
-    console.log(this.terrainMap.data[a]);
-    // PIXEL SAMPLING
+    // // PIXEL SAMPLING
+    // let x = 100;
+    // let y = 110;
+    // let r = (y * this.canvasWidth + x) * 4;
+    // let g = (y * this.canvasWidth + x) * 4 + 1;
+    // let b = (y * this.canvasWidth + x) * 4 + 2;
+    // let a = (y * this.canvasWidth + x) * 4 + 3;
+    // console.log(this.terrainMap.data[r]);
+    // console.log(this.terrainMap.data[g]);
+    // console.log(this.terrainMap.data[b]);
+    // console.log(this.terrainMap.data[a]);
+    // // PIXEL SAMPLING
 
     this.moveTank();
     var that = this;
@@ -264,7 +264,7 @@ class Map {
     }
 
     if (this.space_key && !this.jumping) {
-      this.upForce = 5*this.speed;
+      this.upForce = 4*this.speed;
       this.jumping = true;
     }
 
@@ -362,6 +362,8 @@ class DrawCanvas {
     this.stroke = 2;
     this.clickHold = false;
     this.prevX = 0; this.currX = 0; this.prevY = 0; this.currY = 0;
+    this.pointerOffsetX = -10;
+    this.pointerOffsetY = -10;
     // let that = this;
     window.addEventListener("mousemove", (e) => (
         this.findxy('move', e)
@@ -393,8 +395,8 @@ class DrawCanvas {
     if (res === 'down') {
         this.prevX = this.currX;
         this.prevY = this.currY;
-        this.currX = e.clientX - this.canvas.offsetLeft;
-        this.currY = e.clientY - this.canvas.offsetTop;
+        this.currX = e.clientX + this.pointerOffsetX; //- this.canvas.offsetLeft;
+        this.currY = e.clientY + this.pointerOffsetY; //- this.canvas.offsetTop;
 
         this.clickHold = true;
             this.drawCtx.beginPath();
@@ -410,8 +412,8 @@ class DrawCanvas {
         if (this.clickHold) {
             this.prevX = this.currX;
             this.prevY = this.currY;
-            this.currX = e.clientX - this.canvas.offsetLeft;
-            this.currY = e.clientY - this.canvas.offsetTop;
+            this.currX = e.clientX + this.pointerOffsetX; //- this.canvas.offsetLeft;
+            this.currY = e.clientY + this.pointerOffsetY; //- this.canvas.offsetTop;
             this.draw();
         }
     }

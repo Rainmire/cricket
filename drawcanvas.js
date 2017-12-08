@@ -7,6 +7,8 @@ class DrawCanvas {
     this.stroke = 2;
     this.clickHold = false;
     this.prevX = 0; this.currX = 0; this.prevY = 0; this.currY = 0;
+    this.pointerOffsetX = -10;
+    this.pointerOffsetY = -10;
     // let that = this;
     window.addEventListener("mousemove", (e) => (
         this.findxy('move', e)
@@ -38,8 +40,8 @@ class DrawCanvas {
     if (res === 'down') {
         this.prevX = this.currX;
         this.prevY = this.currY;
-        this.currX = e.clientX - this.canvas.offsetLeft;
-        this.currY = e.clientY - this.canvas.offsetTop;
+        this.currX = e.clientX + this.pointerOffsetX; //- this.canvas.offsetLeft;
+        this.currY = e.clientY + this.pointerOffsetY; //- this.canvas.offsetTop;
 
         this.clickHold = true;
             this.drawCtx.beginPath();
@@ -55,8 +57,8 @@ class DrawCanvas {
         if (this.clickHold) {
             this.prevX = this.currX;
             this.prevY = this.currY;
-            this.currX = e.clientX - this.canvas.offsetLeft;
-            this.currY = e.clientY - this.canvas.offsetTop;
+            this.currX = e.clientX + this.pointerOffsetX; //- this.canvas.offsetLeft;
+            this.currY = e.clientY + this.pointerOffsetY; //- this.canvas.offsetTop;
             this.draw();
         }
     }
