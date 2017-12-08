@@ -9,7 +9,7 @@ body {
   z-index: 1;
   border: 1px solid black;
 }
-#tankCanvas {
+#cricketCanvas {
   position: absolute;
   z-index: 2;
   border: 1px solid black;

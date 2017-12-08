@@ -114,8 +114,8 @@ class Map {
     this.speed = 10;
     this.climb = 4;
 
-    this.tankX = 500;
-    this.tankY = 50;
+    this.cricketX = 500;
+    this.cricketY = 50;
 
     //////////DRAW TERRAIN
 
@@ -147,7 +147,7 @@ class Map {
     this.upForce = 0;
 
     this.initTerrain();
-    this.initTank();
+    this.initCricket();
     this.frame();
   }
 
@@ -166,29 +166,29 @@ class Map {
   // }
 
 
-  initTank () {
-    var tankCanvas = document.getElementById('tankCanvas');
-    this.tankContext = tankCanvas.getContext('2d');
+  initCricket () {
+    var cricketCanvas = document.getElementById('cricketCanvas');
+    this.cricketContext = cricketCanvas.getContext('2d');
 
-    this.tankMap = this.tankContext.createImageData(10,10);
-    var tankData = this.tankMap.data;
-    for(var i = 0, n = tankData.length; i < n; i += 4) {
-      tankData[i] = 255;
-      tankData[i + 1] = 0;
-      tankData[i + 2] = 0;
-      tankData[i + 3] = 255;
+    this.cricketMap = this.cricketContext.createImageData(10,10);
+    var cricketData = this.cricketMap.data;
+    for(var i = 0, n = cricketData.length; i < n; i += 4) {
+      cricketData[i] = 255;
+      cricketData[i + 1] = 0;
+      cricketData[i + 2] = 0;
+      cricketData[i + 3] = 255;
     }
 
 
-    this.tankContext.putImageData(this.tankMap,this.tankX,this.tankY);
+    this.cricketContext.putImageData(this.cricketMap,this.cricketX,this.cricketY);
 
 
 
   }
 
-  drawTank() {
-    this.tankContext.clearRect(0, 0, this.terrainMap.width, this.terrainMap.height);
-    this.tankContext.putImageData(this.tankMap,this.tankX,this.tankY);
+  drawCricket() {
+    this.cricketContext.clearRect(0, 0, this.terrainMap.width, this.terrainMap.height);
+    this.cricketContext.putImageData(this.cricketMap,this.cricketX,this.cricketY);
   }
 
   frame() {
@@ -207,33 +207,44 @@ class Map {
     // console.log(this.terrainMap.data[a]);
     // // PIXEL SAMPLING
 
-    this.moveTank();
+    this.moveCricket();
     var that = this;
     setTimeout(function(){ that.frame(); }, 1000 / 60);
   }
 
-  moveTank() {
+  moveCricket() {
+
+    //stuck test
+    if(this.collisionTest(this.cricketX+1, this.cricketY, this.cricketMap,this.terrainMap) &&
+      this.collisionTest(this.cricketX-1, this.cricketY, this.cricketMap,this.terrainMap) &&
+      this.collisionTest(this.cricketX, this.cricketY+1, this.cricketMap,this.terrainMap) &&
+      this.collisionTest(this.cricketX, this.cricketY-1, this.cricketMap,this.terrainMap)) {
+      this.gameOver("c");
+    }
+
+
+
 
     if (this.left_key) {
       for (let i=0; i < this.speed; i++) {
-        if (this.tankX<0) {
+        if (this.cricketX<0) {
           break;
         }
         //hill climbing
-        let newX = this.tankX - 1;
-  			if(this.collisionTest(newX, this.tankY, this.tankMap,this.terrainMap)){
-          let newY = this.tankY;
+        let newX = this.cricketX - 1;
+  			if(this.collisionTest(newX, this.cricketY, this.cricketMap,this.terrainMap)){
+          let newY = this.cricketY;
   				for (let j=0; j < this.climb; j++){
             newY-=1;
-            if (!this.collisionTest(newX, newY, this.tankMap,this.terrainMap)){
-              this.tankX = newX;
-              this.tankY = newY;
+            if (!this.collisionTest(newX, newY, this.cricketMap,this.terrainMap)){
+              this.cricketX = newX;
+              this.cricketY = newY;
               break;
             }
           }
   			}
         else {
-          this.tankX = newX;
+          this.cricketX = newX;
         }
       }
 		}
@@ -241,24 +252,24 @@ class Map {
       // debugger;
       for (let i=0; i < this.speed; i++) {
         // debugger;
-        if (this.tankX+this.tankMap.width>this.canvasWidth-1) {
+        if (this.cricketX+this.cricketMap.width>this.canvasWidth-1) {
           break;
         }
         //hill climbing
-        let newX = this.tankX + 1;
-  			if(this.collisionTest(newX, this.tankY, this.tankMap,this.terrainMap)){
-          let newY = this.tankY;
+        let newX = this.cricketX + 1;
+  			if(this.collisionTest(newX, this.cricketY, this.cricketMap,this.terrainMap)){
+          let newY = this.cricketY;
   				for (let j=0; j < this.climb; j++){
             newY-=1;
-            if (!this.collisionTest(newX, newY, this.tankMap,this.terrainMap)){
-              this.tankX = newX;
-              this.tankY = newY;
+            if (!this.collisionTest(newX, newY, this.cricketMap,this.terrainMap)){
+              this.cricketX = newX;
+              this.cricketY = newY;
               break;
             }
           }
   			}
         else {
-          this.tankX = newX;
+          this.cricketX = newX;
         }
       }
     }
@@ -271,9 +282,9 @@ class Map {
     //jumping
     if (this.upForce > 0) {
       for (let i = 0; i < this.upForce; i++) {
-        let newY = this.tankY - 1;
-        if(!this.collisionTest(this.tankX, newY, this.tankMap, this.terrainMap)){
-    			this.tankY = newY;
+        let newY = this.cricketY - 1;
+        if(!this.collisionTest(this.cricketX, newY, this.cricketMap, this.terrainMap)){
+    			this.cricketY = newY;
     		}
       }
       this.upForce--;
@@ -281,16 +292,16 @@ class Map {
 
     //falling
     for (let i=0; i < this.speed*2; i++) {
-      let newY = this.tankY + 1;
-      if(!this.collisionTest(this.tankX, newY, this.tankMap, this.terrainMap)){
-  			this.tankY = newY;
+      let newY = this.cricketY + 1;
+      if(!this.collisionTest(this.cricketX, newY, this.cricketMap, this.terrainMap)){
+  			this.cricketY = newY;
   		}
       else {
         this.jumping = false;
       }
     }
 
-    this.drawTank();
+    this.drawCricket();
   }
 
   collisionTest(x, y ,smallerObj, biggerObj) {
