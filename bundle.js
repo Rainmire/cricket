@@ -72,8 +72,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__map__ = __webpack_require__(1);
 
 document.addEventListener("DOMContentLoaded", function() {
+  var map;
+  const reset = document.getElementById("reset-btn");
+  reset.onclick = () => {
+    map = null;
+  };
 
-    const map = new __WEBPACK_IMPORTED_MODULE_0__map__["a" /* default */]();
+  map = new __WEBPACK_IMPORTED_MODULE_0__map__["a" /* default */]();
+
 
 });
 
@@ -113,6 +119,7 @@ class Map {
 
     this.initTerrain();
     this.initCricket();
+    // this.initGoal();
     this.frame();
   }
 
@@ -172,16 +179,21 @@ class Map {
   }
 
   gameOver() {
-    console.log("Game Over");
+    let modal = document.getElementById('gameover-modal');
+    modal.style.display = "block";
   }
 
   moveCricket() {
 
     //stuck test
-    if(this.collisionTest(this.cricketX+1, this.cricketY, this.cricketMap,this.terrainMap) &&
-      this.collisionTest(this.cricketX-1, this.cricketY, this.cricketMap,this.terrainMap) &&
-      this.collisionTest(this.cricketX, this.cricketY+1, this.cricketMap,this.terrainMap) &&
-      this.collisionTest(this.cricketX, this.cricketY-1, this.cricketMap,this.terrainMap)) {
+    // if(this.collisionTest(this.cricketX+1, this.cricketY, this.cricketMap,this.terrainMap) &&
+    //   this.collisionTest(this.cricketX-1, this.cricketY, this.cricketMap,this.terrainMap) &&
+    //   this.collisionTest(this.cricketX, this.cricketY+1, this.cricketMap,this.terrainMap) &&
+    //   this.collisionTest(this.cricketX, this.cricketY-1, this.cricketMap,this.terrainMap)) {
+    //   return false;
+    // }
+
+    if (this.collisionTest(this.cricketX, this.cricketY, this.cricketMap,this.terrainMap)===2) {
       return false;
     }
 
@@ -192,11 +204,11 @@ class Map {
         }
         //hill climbing
         let newX = this.cricketX - 1;
-  			if(this.collisionTest(newX, this.cricketY, this.cricketMap,this.terrainMap)){
+  			if(this.collisionTest(newX, this.cricketY, this.cricketMap,this.terrainMap)===1){
           let newY = this.cricketY;
   				for (let j=0; j < this.climb; j++){
             newY-=1;
-            if (!this.collisionTest(newX, newY, this.cricketMap,this.terrainMap)){
+            if (this.collisionTest(newX, newY, this.cricketMap,this.terrainMap)===0){
               this.cricketX = newX;
               this.cricketY = newY;
               break;
@@ -217,11 +229,11 @@ class Map {
         }
         //hill climbing
         let newX = this.cricketX + 1;
-  			if(this.collisionTest(newX, this.cricketY, this.cricketMap,this.terrainMap)){
+  			if(this.collisionTest(newX, this.cricketY, this.cricketMap,this.terrainMap)===1){
           let newY = this.cricketY;
   				for (let j=0; j < this.climb; j++){
             newY-=1;
-            if (!this.collisionTest(newX, newY, this.cricketMap,this.terrainMap)){
+            if (this.collisionTest(newX, newY, this.cricketMap,this.terrainMap)===0){
               this.cricketX = newX;
               this.cricketY = newY;
               break;
@@ -243,7 +255,7 @@ class Map {
     if (this.upForce > 0) {
       for (let i = 0; i < this.upForce; i++) {
         let newY = this.cricketY - 1;
-        if(!this.collisionTest(this.cricketX, newY, this.cricketMap, this.terrainMap)){
+        if(this.collisionTest(this.cricketX, newY, this.cricketMap, this.terrainMap)===0){
     			this.cricketY = newY;
     		}
         else{
@@ -256,7 +268,7 @@ class Map {
     //falling
     for (let i=0; i < this.speed*2; i++) {
       let newY = this.cricketY + 1;
-      if(!this.collisionTest(this.cricketX, newY, this.cricketMap, this.terrainMap)){
+      if(this.collisionTest(this.cricketX, newY, this.cricketMap, this.terrainMap)===0){
   			this.cricketY = newY;
   		}
       else {
@@ -271,13 +283,13 @@ class Map {
   collisionTest(x, y ,smallerObj, biggerObj) {
     for (let i = 0; i < smallerObj.width; i++) {
       for (let j = 0; j < smallerObj.height; j++) {
-        if (this.getPixel(i+x, j+y,biggerObj)) {
-          return true;
+        let res = this.getPixel(i+x, j+y,biggerObj);
+        if (res!==0) {
+          return res;
         }
       }
     }
-    return false;
-
+    return 0;
   }
 
   getPixel(x,y,map){
@@ -287,10 +299,14 @@ class Map {
 		let b = (y * map.width + x) * 4 + 2;
 		let a = (y * map.width + x) * 4 + 3;
     if (map.data[r]===0 && map.data[g]===0 && map.data[b]===0 && map.data[a]===0) {
-      return false;
+      return 0;
+    }
+    if (map.data[r]===0 && map.data[g]===255 && map.data[b]===0 && map.data[a]===255) {
+      this.gameOver();
+      return 2;
     }
 
-    return true;
+    return 1;
   }
 
   keyDown() {
@@ -340,6 +356,10 @@ class DrawCanvas {
     this.pointerOffsetX = 0;
     this.pointerOffsetY = 0;
     // let that = this;
+
+    //draw goal
+    this.drawGoal();
+
     window.addEventListener("mousemove", (e) => (
         this.findxy('move', e)
     ), false);
@@ -352,6 +372,13 @@ class DrawCanvas {
     window.addEventListener("mouseout", (e) => (
         this.findxy('out', e)
     ), false);
+  }
+
+  drawGoal() {
+    this.drawCtx.beginPath();
+    this.drawCtx.fillStyle = "rgba(0, 255, 0, 255)";
+    this.drawCtx.fillRect(20, 40, 20, 20);
+    this.drawCtx.closePath();
   }
 
   draw() {
