@@ -10,6 +10,10 @@ class DrawCanvas {
     this.pointerOffsetX = 0;
     this.pointerOffsetY = 0;
     // let that = this;
+
+    //draw goal
+    this.drawGoal();
+
     window.addEventListener("mousemove", (e) => (
         this.findxy('move', e)
     ), false);
@@ -22,6 +26,13 @@ class DrawCanvas {
     window.addEventListener("mouseout", (e) => (
         this.findxy('out', e)
     ), false);
+  }
+
+  drawGoal() {
+    this.drawCtx.beginPath();
+    this.drawCtx.fillStyle = "rgba(0, 255, 0, 255)";
+    this.drawCtx.fillRect(20, 40, 20, 20);
+    this.drawCtx.closePath();
   }
 
   draw() {
