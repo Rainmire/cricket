@@ -72,26 +72,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__map__ = __webpack_require__(1);
 
 document.addEventListener("DOMContentLoaded", function() {
-  var imageObj = new Image();
-  imageObj.onload = function() {
-    const map = new __WEBPACK_IMPORTED_MODULE_0__map__["a" /* default */](this);
-  };
-  imageObj.crossOrigin = "Anonymous";
-  // imageObj.src = 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Rectangle_.png';
-  imageObj.src = 'http://res.cloudinary.com/rainmire/image/upload/v1512666225/slopes_jloaqp.png';
+
+    const map = new __WEBPACK_IMPORTED_MODULE_0__map__["a" /* default */]();
+
 });
-// const Game = function Game() {
-//   return {
-//     init: function () {
-//       var imageObj = new Image();
-//       imageObj.onload = function() {
-//         const map = new Map(this);
-//       };
-//       imageObj.crossOrigin = "Anonymous";
-//       imageObj.src = 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Rectangle_.png';
-//     }
-//   };
-// };
 
 
 /***/ }),
@@ -154,10 +138,7 @@ class Map {
       cricketData[i + 3] = 255;
     }
 
-
     this.cricketContext.putImageData(this.cricketMap,this.cricketX,this.cricketY);
-
-
 
   }
 
@@ -182,9 +163,16 @@ class Map {
     // console.log(this.terrainMap.data[a]);
     // // PIXEL SAMPLING
 
-    this.moveCricket();
-    var that = this;
-    setTimeout(function(){ that.frame(); }, 1000 / 60);
+    if (this.moveCricket()) {
+      var that = this;
+      setTimeout(function(){ that.frame(); }, 1000 / 60);
+    } else {
+      this.gameOver();
+    }
+  }
+
+  gameOver() {
+    console.log("Game Over");
   }
 
   moveCricket() {
@@ -194,11 +182,8 @@ class Map {
       this.collisionTest(this.cricketX-1, this.cricketY, this.cricketMap,this.terrainMap) &&
       this.collisionTest(this.cricketX, this.cricketY+1, this.cricketMap,this.terrainMap) &&
       this.collisionTest(this.cricketX, this.cricketY-1, this.cricketMap,this.terrainMap)) {
-      this.gameOver("c");
+      return false;
     }
-
-
-
 
     if (this.left_key) {
       for (let i=0; i < this.speed; i++) {
@@ -261,6 +246,9 @@ class Map {
         if(!this.collisionTest(this.cricketX, newY, this.cricketMap, this.terrainMap)){
     			this.cricketY = newY;
     		}
+        else{
+          this.upForce = 0;
+        }
       }
       this.upForce--;
     }
@@ -277,6 +265,7 @@ class Map {
     }
 
     this.drawCricket();
+    return true;
   }
 
   collisionTest(x, y ,smallerObj, biggerObj) {
@@ -348,8 +337,8 @@ class DrawCanvas {
     this.stroke = 2;
     this.clickHold = false;
     this.prevX = 0; this.currX = 0; this.prevY = 0; this.currY = 0;
-    this.pointerOffsetX = -10;
-    this.pointerOffsetY = -10;
+    this.pointerOffsetX = 0;
+    this.pointerOffsetY = 0;
     // let that = this;
     window.addEventListener("mousemove", (e) => (
         this.findxy('move', e)
@@ -381,8 +370,8 @@ class DrawCanvas {
     if (res === 'down') {
         this.prevX = this.currX;
         this.prevY = this.currY;
-        this.currX = e.clientX + this.pointerOffsetX; //- this.canvas.offsetLeft;
-        this.currY = e.clientY + this.pointerOffsetY; //- this.canvas.offsetTop;
+        this.currX = e.clientX - this.canvas.offsetLeft-10;
+        this.currY = e.clientY - this.canvas.offsetTop-10;
 
         this.clickHold = true;
             this.drawCtx.beginPath();
@@ -398,8 +387,8 @@ class DrawCanvas {
         if (this.clickHold) {
             this.prevX = this.currX;
             this.prevY = this.currY;
-            this.currX = e.clientX + this.pointerOffsetX; //- this.canvas.offsetLeft;
-            this.currY = e.clientY + this.pointerOffsetY; //- this.canvas.offsetTop;
+            this.currX = e.clientX - this.canvas.offsetLeft-10;
+            this.currY = e.clientY - this.canvas.offsetTop-10;
             this.draw();
         }
     }

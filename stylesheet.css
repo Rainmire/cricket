@@ -5,17 +5,22 @@ body {
 }
 
 #terrainCanvas {
+  margin-left: 50px;
+  margin-top: 50px;
   position: absolute;
   z-index: 1;
   border: 1px solid black;
 }
 #cricketCanvas {
+  margin-left: 50px;
+  margin-top: 50px;
   position: absolute;
   z-index: 2;
-  border: 1px solid black;
+  /*border: 1px solid black;*/
 }
 
 .instructions {
   /*position: relative;*/
-  margin-top: 450px;
+  margin-top: 470px;
+  margin-left: 50px;
 }

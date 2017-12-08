@@ -52,10 +52,7 @@ class Map {
       cricketData[i + 3] = 255;
     }
 
-
     this.cricketContext.putImageData(this.cricketMap,this.cricketX,this.cricketY);
-
-
 
   }
 
@@ -80,9 +77,16 @@ class Map {
     // console.log(this.terrainMap.data[a]);
     // // PIXEL SAMPLING
 
-    this.moveCricket();
-    var that = this;
-    setTimeout(function(){ that.frame(); }, 1000 / 60);
+    if (this.moveCricket()) {
+      var that = this;
+      setTimeout(function(){ that.frame(); }, 1000 / 60);
+    } else {
+      this.gameOver();
+    }
+  }
+
+  gameOver() {
+    console.log("Game Over");
   }
 
   moveCricket() {
@@ -92,11 +96,8 @@ class Map {
       this.collisionTest(this.cricketX-1, this.cricketY, this.cricketMap,this.terrainMap) &&
       this.collisionTest(this.cricketX, this.cricketY+1, this.cricketMap,this.terrainMap) &&
       this.collisionTest(this.cricketX, this.cricketY-1, this.cricketMap,this.terrainMap)) {
-      this.gameOver("c");
+      return false;
     }
-
-
-
 
     if (this.left_key) {
       for (let i=0; i < this.speed; i++) {
@@ -159,6 +160,9 @@ class Map {
         if(!this.collisionTest(this.cricketX, newY, this.cricketMap, this.terrainMap)){
     			this.cricketY = newY;
     		}
+        else{
+          this.upForce = 0;
+        }
       }
       this.upForce--;
     }
@@ -175,6 +179,7 @@ class Map {
     }
 
     this.drawCricket();
+    return true;
   }
 
   collisionTest(x, y ,smallerObj, biggerObj) {
