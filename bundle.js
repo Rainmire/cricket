@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const winModal = document.getElementById("gameover-modal");
   reset.onclick = () => {
     map.clearAllCanvas();
-    map = null;
+    map = new __WEBPACK_IMPORTED_MODULE_0__map__["a" /* default */]();
     winModal.style.display = "none";
   };
 
