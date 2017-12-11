@@ -16,7 +16,7 @@ Cricket is a demo in pixel collisions presented as a quick puzzle game. The obje
 This project will be implemented with the following technologies:
 * Vanilla JavaScript for overall structure and game logic
 * Webpack to bundle and serve up the various scripts
-* `HTML5 Canvas` for rendering terrain and tanks
+* `HTML5 Canvas` for rendering terrain and cricket
 
 The architecture for this project will be:
 `map.js`: houses the physics engine and renders the cricket
