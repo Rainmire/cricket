@@ -9,6 +9,10 @@ document.addEventListener("DOMContentLoaded", function() {
     winModal.style.display = "none";
   };
 
-  map = new Map();
+  var cricketImg = new Image();
+  cricketImg.onload = () => {
+    map = new Map(cricketImg);
+  };
+  cricketImg.src = './assets/circle.gif';
 
 });

@@ -2,18 +2,21 @@ import DrawCanvas from './drawcanvas';
 
 class Map {
 
-  constructor(imageObj){
+  constructor(cricketImg){
     // var canvas = document.getElementById('terrainCanvas');
     // var context = canvas.getContext('2d');
 
-    this.imageX = 0;
-    this.imageY = -60;
+    // this.imageX = 0;
+    // this.imageY = -60;
 
     this.speed = 6;
     this.climb = 4;
 
-    this.cricketX = 550;
-    this.cricketY = 300;
+    // this.cricketX = 450;
+    // this.cricketY = 200;
+
+    this.cricketX = 100;
+    this.cricketY = 100;
 
     document.onkeydown = this.keyDown.bind(this);
 		document.onkeyup = this.keyUp.bind(this);
@@ -27,10 +30,10 @@ class Map {
 
     this.playing = true;
 
-    this.initTerrain();
-    this.initCricket();
+    // this.initTerrain();
+    this.initCricket(cricketImg);
     // this.initGoal();
-    this.frame();
+    // this.frame();
   }
 
   clearAllCanvas() {
@@ -50,22 +53,26 @@ class Map {
     this.drawCanvas = new DrawCanvas();
   }
 
-  initCricket () {
+  initCricket (cricketImg) {
+    // debugger;
     var cricketCanvas = document.getElementById('cricketCanvas');
     this.cricketContext = cricketCanvas.getContext('2d');
     this.cricketContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
-    this.cricketMap = this.cricketContext.createImageData(10,10);
-    var cricketData = this.cricketMap.data;
-    for(var i = 0, n = cricketData.length; i < n; i += 4) {
-      cricketData[i] = 255;
-      cricketData[i + 1] = 0;
-      cricketData[i + 2] = 0;
-      cricketData[i + 3] = 255;
-    }
+    // this.cricketMap = this.cricketContext.createImageData(10,10);
+    // var cricketData = this.cricketMap.data;
+    // for(var i = 0, n = cricketData.length; i < n; i += 4) {
+    //   cricketData[i] = 255;
+    //   cricketData[i + 1] = 0;
+    //   cricketData[i + 2] = 0;
+    //   cricketData[i + 3] = 255;
+    // }
 
-    this.cricketContext.putImageData(this.cricketMap,this.cricketX,this.cricketY);
+    this.cricketContext.drawImage(cricketImg, 100, 100, 50, 50);
 
+    // this.cricketMap = this.cricketContext.createImageData(cricketImg);
+
+    // this.cricketContext.putImageData(this.cricketMap,this.cricketX,this.cricketY);
   }
 
   drawCricket() {
