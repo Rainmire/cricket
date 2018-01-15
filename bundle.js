@@ -116,6 +116,10 @@ class Map {
     this.cricketX = 100;
     this.cricketY = 100;
 
+    this.cricketW = 50;
+    this.cricketH = 50;
+
+
     document.onkeydown = this.keyDown.bind(this);
 		document.onkeyup = this.keyUp.bind(this);
 
@@ -166,10 +170,11 @@ class Map {
     //   cricketData[i + 3] = 255;
     // }
 
-    this.cricketContext.drawImage(cricketImg, 100, 100, 50, 50);
+    this.cricketContext.drawImage(cricketImg, this.cricketX, this.cricketY, this.cricketW, this.cricketH);
 
-    // this.cricketMap = this.cricketContext.createImageData(cricketImg);
+    let cricketData = this.cricketContext.getImageData(this.cricketX, this.cricketY, this.cricketW, this.cricketH);
 
+    debugger;
     // this.cricketContext.putImageData(this.cricketMap,this.cricketX,this.cricketY);
   }
 
