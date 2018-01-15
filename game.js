@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
   cricketImg.onload = () => {
     map = new Map(cricketImg);
   };
-  cricketImg.src = './assets/circle.gif';
+  cricketImg.crossOrigin = "Anonymous";
+  cricketImg.src = './assets/circle.png';
 
 });

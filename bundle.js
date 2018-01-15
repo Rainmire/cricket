@@ -85,7 +85,8 @@ document.addEventListener("DOMContentLoaded", function() {
   cricketImg.onload = () => {
     map = new __WEBPACK_IMPORTED_MODULE_0__map__["a" /* default */](cricketImg);
   };
-  cricketImg.src = './assets/circle.gif';
+  cricketImg.crossOrigin = "Anonymous";
+  cricketImg.src = './assets/circle.png';
 
 });
 
