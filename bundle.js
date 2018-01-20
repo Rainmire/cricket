@@ -80,13 +80,40 @@ document.addEventListener("DOMContentLoaded", function() {
     map = new __WEBPACK_IMPORTED_MODULE_0__map__["a" /* default */]();
     winModal.style.display = "none";
   };
+  // debugger;
+
 
   var cricketImg = new Image();
+
+  cricketImg.crossOrigin = "Anonymous";
+
+  cricketImg.src = 'http://res.cloudinary.com/rainmire/image/upload/v1516048742/canvas-cricket/circle.png';
+
   cricketImg.onload = () => {
+    // debugger;
     map = new __WEBPACK_IMPORTED_MODULE_0__map__["a" /* default */](cricketImg);
   };
-  cricketImg.crossOrigin = "Anonymous";
-  cricketImg.src = './assets/circle.png';
+
+  // var img = new Image,
+  //   canvas = document.createElement("canvas"),
+  //   ctx = canvas.getContext("2d"),
+  //   src = "http://res.cloudinary.com/rainmire/image/upload/v1516048742/canvas-cricket/circle.png"; // insert image url here
+  //
+  // img.crossOrigin = "Anonymous";
+  //
+  // img.onload = function() {
+  //     canvas.width = img.width;
+  //     canvas.height = img.height;
+  //     ctx.drawImage( img, 0, 0 );
+  //     localStorage.setItem( "savedImageData", canvas.toDataURL("image/png") );
+  //     map = new Map(img);
+  // };
+  // img.src = src;
+  // // make sure the load event fires for cached images too
+  // if ( img.complete || img.complete === undefined ) {
+  //     img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+  //     img.src = src;
+  // }
 
 });
 
@@ -133,10 +160,26 @@ class Map {
 
     this.playing = true;
 
-    // this.initTerrain();
+    this.initTerrain();
     this.initCricket(cricketImg);
     // this.initGoal();
-    // this.frame();
+    this.frame();
+  }
+
+  samplePixel(x, y) {
+    debugger;
+    // // PIXEL SAMPLING
+    // let x = 100;
+    // let y = 110;
+    let r = (y * this.cricketW + x) * 4;
+    let g = (y * this.cricketW + x) * 4 + 1;
+    let b = (y * this.cricketW + x) * 4 + 2;
+    let a = (y * this.cricketW + x) * 4 + 3;
+    console.log(this.cricketMap.data[r]);
+    console.log(this.cricketMap.data[g]);
+    console.log(this.cricketMap.data[b]);
+    console.log(this.cricketMap.data[a]);
+    // // PIXEL SAMPLING
   }
 
   clearAllCanvas() {
@@ -173,9 +216,9 @@ class Map {
 
     this.cricketContext.drawImage(cricketImg, this.cricketX, this.cricketY, this.cricketW, this.cricketH);
 
-    let cricketData = this.cricketContext.getImageData(this.cricketX, this.cricketY, this.cricketW, this.cricketH);
+    // this.cricketMap = this.cricketContext.getImageData(this.cricketX, this.cricketY, this.cricketW, this.cricketH);
 
-    debugger;
+    // debugger;
     // this.cricketContext.putImageData(this.cricketMap,this.cricketX,this.cricketY);
   }
 
@@ -186,11 +229,12 @@ class Map {
   }
 
   frame() {
-    if (!this.playing) {
-      return;
-    }
+    // if (!this.playing) {
+    //   return;
+    // }
     this.terrainMap = this.terrainContext.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
-
+    this.samplePixel(20, 20);
+    setTimeout(()=>{ this.frame(); }, 1000 / 60);
     // // PIXEL SAMPLING
     // let x = 100;
     // let y = 110;
@@ -204,12 +248,12 @@ class Map {
     // console.log(this.terrainMap.data[a]);
     // // PIXEL SAMPLING
 
-    if (this.moveCricket()) {
-      var that = this;
-      setTimeout(function(){ that.frame(); }, 1000 / 60);
-    } else {
-      this.gameOver();
-    }
+    // if (this.moveCricket()) {
+    //   var that = this;
+    //   setTimeout(function(){ that.frame(); }, 1000 / 60);
+    // } else {
+    //   this.gameOver();
+    // }
   }
 
   gameOver() {
@@ -429,8 +473,8 @@ class DrawCanvas {
     if (res === 'down') {
         this.prevX = this.currX;
         this.prevY = this.currY;
-        this.currX = e.clientX - this.canvas.offsetLeft-10;
-        this.currY = e.clientY - this.canvas.offsetTop-10;
+        this.currX = e.clientX - this.canvas.offsetLeft;
+        this.currY = e.clientY - this.canvas.offsetTop;
 
         this.clickHold = true;
             this.drawCtx.beginPath();
@@ -446,8 +490,8 @@ class DrawCanvas {
         if (this.clickHold) {
             this.prevX = this.currX;
             this.prevY = this.currY;
-            this.currX = e.clientX - this.canvas.offsetLeft-10;
-            this.currY = e.clientY - this.canvas.offsetTop-10;
+            this.currX = e.clientX - this.canvas.offsetLeft;
+            this.currY = e.clientY - this.canvas.offsetTop;
             this.draw();
         }
     }

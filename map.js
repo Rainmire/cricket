@@ -34,10 +34,26 @@ class Map {
 
     this.playing = true;
 
-    // this.initTerrain();
+    this.initTerrain();
     this.initCricket(cricketImg);
     // this.initGoal();
-    // this.frame();
+    this.frame();
+  }
+
+  samplePixel(x, y) {
+    debugger;
+    // // PIXEL SAMPLING
+    // let x = 100;
+    // let y = 110;
+    let r = (y * this.cricketW + x) * 4;
+    let g = (y * this.cricketW + x) * 4 + 1;
+    let b = (y * this.cricketW + x) * 4 + 2;
+    let a = (y * this.cricketW + x) * 4 + 3;
+    console.log(this.cricketMap.data[r]);
+    console.log(this.cricketMap.data[g]);
+    console.log(this.cricketMap.data[b]);
+    console.log(this.cricketMap.data[a]);
+    // // PIXEL SAMPLING
   }
 
   clearAllCanvas() {
@@ -74,9 +90,9 @@ class Map {
 
     this.cricketContext.drawImage(cricketImg, this.cricketX, this.cricketY, this.cricketW, this.cricketH);
 
-    let cricketData = this.cricketContext.getImageData(this.cricketX, this.cricketY, this.cricketW, this.cricketH);
+    // this.cricketMap = this.cricketContext.getImageData(this.cricketX, this.cricketY, this.cricketW, this.cricketH);
 
-    debugger;
+    // debugger;
     // this.cricketContext.putImageData(this.cricketMap,this.cricketX,this.cricketY);
   }
 
@@ -87,11 +103,12 @@ class Map {
   }
 
   frame() {
-    if (!this.playing) {
-      return;
-    }
+    // if (!this.playing) {
+    //   return;
+    // }
     this.terrainMap = this.terrainContext.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
-
+    this.samplePixel(20, 20);
+    setTimeout(()=>{ this.frame(); }, 1000 / 60);
     // // PIXEL SAMPLING
     // let x = 100;
     // let y = 110;
@@ -105,12 +122,12 @@ class Map {
     // console.log(this.terrainMap.data[a]);
     // // PIXEL SAMPLING
 
-    if (this.moveCricket()) {
-      var that = this;
-      setTimeout(function(){ that.frame(); }, 1000 / 60);
-    } else {
-      this.gameOver();
-    }
+    // if (this.moveCricket()) {
+    //   var that = this;
+    //   setTimeout(function(){ that.frame(); }, 1000 / 60);
+    // } else {
+    //   this.gameOver();
+    // }
   }
 
   gameOver() {

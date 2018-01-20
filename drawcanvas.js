@@ -50,8 +50,8 @@ class DrawCanvas {
     if (res === 'down') {
         this.prevX = this.currX;
         this.prevY = this.currY;
-        this.currX = e.clientX - this.canvas.offsetLeft-10;
-        this.currY = e.clientY - this.canvas.offsetTop-10;
+        this.currX = e.clientX - this.canvas.offsetLeft;
+        this.currY = e.clientY - this.canvas.offsetTop;
 
         this.clickHold = true;
             this.drawCtx.beginPath();
@@ -67,8 +67,8 @@ class DrawCanvas {
         if (this.clickHold) {
             this.prevX = this.currX;
             this.prevY = this.currY;
-            this.currX = e.clientX - this.canvas.offsetLeft-10;
-            this.currY = e.clientY - this.canvas.offsetTop-10;
+            this.currX = e.clientX - this.canvas.offsetLeft;
+            this.currY = e.clientY - this.canvas.offsetTop;
             this.draw();
         }
     }
